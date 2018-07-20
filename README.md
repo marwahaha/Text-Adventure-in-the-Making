@@ -6,3 +6,4 @@ ______ Updates of Recent Changes ______
 3) GameStart class updated to Game
 4) Player class added, can now select what character to play as in the Game class
 5) Monster class added with basic mobs
+6) Level Up added
