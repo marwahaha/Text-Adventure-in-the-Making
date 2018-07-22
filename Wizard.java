@@ -1,6 +1,6 @@
 public class Wizard implements Character{
 
-    private int hp, spd, str, def, lck, mag;
+    private int spd, str, def, lck, mag;
     private String gameClass;
 
     public void createChar() {
@@ -20,10 +20,6 @@ public class Wizard implements Character{
         return mag;
     }
 
-    public void takeDmg(int x){
-        hp -= x;
-    }
-
 
 
     public int getStr() { return this.str; }
@@ -37,9 +33,6 @@ public class Wizard implements Character{
     public int getLck(){ return this.lck; }
 
     public String getgameClass() { return this.gameClass; }
-
-    public void setHp(int x) {this.hp = x; }
-
     public void setStr(int x) {this.str = x; }
 
     public void setDef(int x) {this.def = x; }

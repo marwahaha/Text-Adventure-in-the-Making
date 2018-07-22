@@ -33,7 +33,7 @@ public class Monster{
     }
 
     public int getHp(){ return this.hp; }
-
+    public String getName(){ return this.name; }
 
 
 }

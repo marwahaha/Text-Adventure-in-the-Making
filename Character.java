@@ -1,6 +1,11 @@
 public interface Character {
-
-
+    /*
+   private int str; //attack damage
+   private int def; //mitigation
+   private int spd; //evasion & turn order
+   private int mag; //mana & magic damage(?)
+   private int lck; //crit & magic find(?)
+   */
     void createChar();
     int getDef();
     int getStr();
@@ -15,6 +20,4 @@ public interface Character {
     void setLck(int x);
     int specialAtk();
     int regAtk();
-    void takeDmg(int x);
-
 }
