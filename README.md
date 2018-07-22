@@ -7,3 +7,5 @@ ______ Updates of Recent Changes ______
 4) Player class added, can now select what character to play as in the Game class
 5) Monster class added with basic mobs
 6) Level Up added
+7) Character classes created, specified abilties and stats
+8) Combat system added
