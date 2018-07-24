@@ -63,7 +63,7 @@ public class Game{
   }
   
   public static void menu(){
-    System.out.println("Menu: \n");
+    System.out.println("\nOptions: ");
     System.out.println("1. Proceed Forward");
     System.out.println("2. Inventory");
     System.out.println("3. Quit");

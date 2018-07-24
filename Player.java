@@ -13,14 +13,14 @@ public class Player{
   public Character p1; //pONE
   
   //items that are equipped
-  private Item head, body, feet, arms, ring1, ring2, wep;
+  private Item head, body, feet, arms, ring1, wep;
   
   //items that are stored as consumables
   private Inventory inv; 
   
   
   public Player(){
-    this.head = body = feet = arms = ring1 = ring2 = wep = null;
+    this.head = body = feet = arms = ring1 = wep = null;
     this.lvl = 1;
     this.maxExp = 50;
     this.exp = gold = 0;
@@ -169,17 +169,13 @@ public class Player{
     System.out.println("You are now Level " + lvl + "!");
   }
   
-  public int getHp(){
-    return this.hp;
-  }
-  
   public void equip(Item i){
     if (i.getType().equals("head")) this.head = i;
     if (i.getType().equals("body")) this.body = i;
     if (i.getType().equals("feet")) this.feet = i;
     if (i.getType().equals("arms")) this.arms = i;
-    if (i.getType().equals("ring1")) this.ring1 = i;
-    if (i.getType().equals("ring2")) this.ring2 = i;
+    if (i.getType().equals("ring")) this.ring1 = i;
+   // if (i.getType().equals("ring2")) this.ring2 = i;
     if (i.getType().equals("wep")) this.wep = i;
     p1.setStr(p1.getStr() + i.getStr()); 
     p1.setDef(p1.getDef() + i.getDef()); 
@@ -204,7 +200,7 @@ public class Player{
     if (slot.equals("feet")) this.feet = null;
     if (slot.equals("arms")) this.arms = null;
     if (slot.equals("ring1")) this.ring1 = null;
-    if (slot.equals("ring2")) this.ring2 = null;
+  //  if (slot.equals("ring2")) this.ring2 = null;
     if (slot.equals("wep")) this.wep = null;
   }
   
@@ -214,15 +210,21 @@ public class Player{
     if (slot.equals("feet")) return this.feet;
     if (slot.equals("arms")) return this.arms;
     if (slot.equals("ring1")) return this.ring1;
-    if (slot.equals("ring2")) return this.ring2;
+    //if (slot.equals("ring2")) return this.ring2;
     if (slot.equals("wep")) return this.wep;
     else return null;
   }
   
+  public int getHp(){ return this.hp;}
+  public void setHp(int x){ this.hp = x;}
+  public int getMaxHp(){ return this.maxHp;}
+  public void setMaxHp(int x){ this.maxHp = x;}
+  public int getMana(){ return this.mana;}
+  public void setMana(int x){ this.mana = x;}
+  public int getMaxMana(){ return this.maxMana;}
+  public void setMaxMana(int x){ this.maxMana = x;}
   public int getExp(){ return this.exp;}
   public void setExp(int x){ this.exp = x;}
   
-  public void takeDmg(int x){
-        hp -= x;
-    }
+  public void takeDmg(int x){hp -= x;}
 }
