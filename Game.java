@@ -7,9 +7,8 @@ public class Game{
     boolean quit = false;
     int menuChoice;
     while (quit != true) {
-      System.out.println("Choose a menu option..");
-      System.out.println("1. Start/Resume");
-      System.out.println("2. Reset");
+      System.out.println("Choose a menu option..\n");
+      System.out.println("1. New Game\n2. Continue");
       System.out.println("3. Quit");
       menuChoice = sc.nextInt();
       switch(menuChoice){
@@ -18,7 +17,7 @@ public class Game{
           quit = inGame();
           break;
         case 2:
-          System.out.println("Resetting progress..");
+          System.out.println("Continuing save..");
           //erase any saved game... (how do you even save progress?)
           break;
         case 3:
@@ -36,7 +35,8 @@ public class Game{
     Player p = new Player();
     Scanner input = new Scanner(System.in);
     int result;
-    System.out.println("Dungeon Started!");
+    System.out.println("You enter the dungeon!");
+    boolean potion = false; //if a potion is used out of combat, remove it after combat
     boolean inProgress = true;
     while (inProgress) {
       menu();
@@ -44,19 +44,24 @@ public class Game{
       switch(result){
         case 1:
           Combat combat = new Combat(p);
+          if (p.getHp() == 0){ inProgress = false;}
+          if (potion){ 
+            p.getInv().removeBuffs();
+            potion = false;
+          }
           break;
         case 2:
           System.out.println("Opening Inventory");
+          potion = invMenu(p);
           break;
         case 3:
-          System.out.println("Quitting");
-          inProgress = false;
-          return true;
-        case 4:
           p.showStats();
           break;
+        case 4:
+          System.out.println("Quitting");
+          inProgress = false;
         default:
-          System.out.println("Invalid");
+          System.out.println("Invalid choice.");
       }
     }
     return false;
@@ -66,8 +71,33 @@ public class Game{
     System.out.println("\nOptions: ");
     System.out.println("1. Proceed Forward");
     System.out.println("2. Inventory");
-    System.out.println("3. Quit");
-    System.out.println("4. Stats");
+    System.out.println("3. Stats");
+    System.out.println("4. Quit");
   }
   
+  public static boolean invMenu(Player player){ //return true if potion was used out of combat else false
+    System.out.println("\n1. Equipment\n2. Potions\n3. Back");
+    Scanner s = new Scanner(System.in);
+    int choice = s.nextInt();
+    boolean potion = false;
+    boolean loop = true;
+    while (loop)
+    switch(choice){
+      case 1:
+        System.out.println("Equipment:");
+        player.showEquipped();
+        loop = false;
+        break;
+      case 2:
+        potion = player.getInv().potionMenu(player);
+        loop = false;
+        break;
+      case 3:
+        loop = false;
+        break;
+      default:
+        System.out.println("Invalid choice.");
+    }
+    return potion;
+  }
 }

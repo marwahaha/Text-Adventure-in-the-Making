@@ -9,5 +9,4 @@ ______ Updates of Recent Changes ______
 6) Level Up added
 7) Character classes created, specified abilties and stats
 8) Combat system added
-9) Items added
-10) Combat improved with crit/evasion/turn order
+9) Potions added, polished up parts of game

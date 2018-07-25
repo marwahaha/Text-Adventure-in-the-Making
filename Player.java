@@ -20,6 +20,7 @@ public class Player{
   
   
   public Player(){
+    this.inv = new Inventory(this);
     this.head = body = feet = arms = ring1 = wep = null;
     this.lvl = 1;
     this.maxExp = 50;
@@ -28,7 +29,7 @@ public class Player{
     int choice;
     boolean loop = true;
     while (loop) {
-      System.out.println("Choose your class:");
+      System.out.println("\nChoose your class:");
       System.out.println("1: Warrior");
       System.out.println("2: Rogue");
       System.out.println("3: Wizard");
@@ -38,6 +39,8 @@ public class Player{
           System.out.println("Welcome, Warrior.");
           p1 = new Warrior();
           p1.createChar();
+          Item i = new Item("Rusty Sword");
+          equip(i);
           this.maxHp = hp = 50;
           this.maxMana = mana = 15 + (p1.getMag()*5);
           loop = false;
@@ -47,6 +50,8 @@ public class Player{
           this.maxHp = hp = 40;
           p1 = new Rogue();
           p1.createChar();
+          i = new Item("Rusty Dagger");
+          equip(i);
           this.maxMana = mana = 15 + (p1.getMag()*5);
           loop = false;
           break;
@@ -55,6 +60,8 @@ public class Player{
           this.maxHp = hp = 35;
           p1 = new Wizard();
           p1.createChar();
+          i = new Item("Old Staff");
+          equip(i);
           this.maxMana = mana = 15 + (p1.getMag()*5);
           loop = false;
           break;
@@ -175,15 +182,12 @@ public class Player{
     if (i.getType().equals("feet")) this.feet = i;
     if (i.getType().equals("arms")) this.arms = i;
     if (i.getType().equals("ring")) this.ring1 = i;
-   // if (i.getType().equals("ring2")) this.ring2 = i;
     if (i.getType().equals("wep")) this.wep = i;
     p1.setStr(p1.getStr() + i.getStr()); 
     p1.setDef(p1.getDef() + i.getDef()); 
     p1.setSpd(p1.getSpd() + i.getSpd()); 
     p1.setMag(p1.getMag() + i.getMag()); 
     p1.setLck(p1.getLck() + i.getLck()); 
-    p1.setStr(p1.getStr() + i.getDmg()); 
-    p1.setDef(p1.getDef() + i.getArm()); 
   }
   
   public void unequip(String slot){
@@ -193,14 +197,11 @@ public class Player{
     p1.setSpd(p1.getSpd() - i.getSpd()); 
     p1.setMag(p1.getMag() - i.getMag()); 
     p1.setLck(p1.getLck() - i.getLck()); 
-    p1.setStr(p1.getStr() - i.getDmg()); 
-    p1.setDef(p1.getDef() - i.getArm()); 
     if (slot.equals("head")) this.head = null;
     if (slot.equals("body")) this.body = null;
     if (slot.equals("feet")) this.feet = null;
     if (slot.equals("arms")) this.arms = null;
     if (slot.equals("ring1")) this.ring1 = null;
-  //  if (slot.equals("ring2")) this.ring2 = null;
     if (slot.equals("wep")) this.wep = null;
   }
   
@@ -210,12 +211,15 @@ public class Player{
     if (slot.equals("feet")) return this.feet;
     if (slot.equals("arms")) return this.arms;
     if (slot.equals("ring1")) return this.ring1;
-    //if (slot.equals("ring2")) return this.ring2;
     if (slot.equals("wep")) return this.wep;
     else return null;
   }
   
-  public int getHp(){ return this.hp;}
+  public Inventory getInv(){ return this.inv;}
+  public int getHp(){ 
+    if (hp <= 0){ return 0;}
+    else return hp;
+  }
   public void setHp(int x){ this.hp = x;}
   public int getMaxHp(){ return this.maxHp;}
   public void setMaxHp(int x){ this.maxHp = x;}
@@ -227,4 +231,19 @@ public class Player{
   public void setExp(int x){ this.exp = x;}
   
   public void takeDmg(int x){hp -= x;}
+  
+  public void showEquipped(){ //shows equipped items
+    if (getItem("head") != null){ System.out.println("Head: " + head.getDesc());}
+    else System.out.println("Head: Empty");
+    if (getItem("body") != null){ System.out.println("Body: " + body.getDesc());}
+    else System.out.println("Body: Empty");
+    if (getItem("arms") != null){ System.out.println("Arms: " + arms.getDesc());}
+    else System.out.println("Arms: Empty");
+    if (getItem("feet") != null){ System.out.println("Feet: " + feet.getDesc());}
+    else System.out.println("Feet: Empty");
+    if (getItem("ring1") != null){ System.out.println("Ring: " + ring1.getDesc());}
+    else System.out.println("Ring: Empty");
+    if (getItem("wep") != null){ System.out.println("Weapon: " + wep.getDesc());}
+    else System.out.println("Weapon: Empty");
+  }
 }
