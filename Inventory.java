@@ -129,4 +129,12 @@ public class Inventory{
     }
     return ret;
   }
+  
+  public Item getItem(int index){
+    return inv.get(index);
+  }
+  
+  public void removeItem(Item i){
+    inv.remove(i);
+  }
 }

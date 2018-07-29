@@ -229,6 +229,8 @@ public class Player{
   public void setMaxMana(int x){ this.maxMana = x;}
   public int getExp(){ return this.exp;}
   public void setExp(int x){ this.exp = x;}
+  public int getGold(){ return this.gold;}
+  public void setGold(int x){ this.gold = x;}
   
   public void takeDmg(int x){hp -= x;}
   

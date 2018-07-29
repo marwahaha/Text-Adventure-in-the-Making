@@ -6,53 +6,61 @@ public class Combat {
   
   
   public Combat(Player player){
-    Scanner sc = new Scanner(System.in);
-    System.out.println("You've been attacked!");
-    Monster monster = new Monster("Skeleton");
-    System.out.println("Initializing combat..");
-    boolean potion = false; //if true, at end of combat remove potion buffs
-    int choice;
-    boolean inCombat = true;
-    while (inCombat){
-      System.out.println("\nCombat Options:\n1. Attack    2. Magic");
-      System.out.println("3. Potions   4. Flee\n5: Stats");
-      choice = sc.nextInt();
-      switch(choice) {
-        case 1:
-          if (attack(player, monster)){ inCombat = false;}
-          break;
-        case 2:
-          System.out.println("Magic not coded yet.");
-          break;
-        case 3:
-          potion = player.getInv().potionMenu(player);
-          break;
-        case 4:
-          if (player.p1.getSpd() > monster.getSpd()){ //if faster than monster, always escape
-          System.out.println("You retreat!");
-          inCombat = false;
-        }
-          else { 
-            Random r = new Random();
-            int rand = r.nextInt(2); // 50% chance of escaping
-            if (rand == 1){
-              System.out.println("You retreat!");
-              inCombat = false;
-            }
-            else{ System.out.println("Failed to retreat!");}
-          }
-          break;
-        case 5:
-          player.showStats();
-          System.out.println();
-          break;
-        default:
-          System.out.println("Invalid choice.");
-      }
+    //10% shop chance
+    Random r = new Random();
+    int shopChance = r.nextInt(9);
+    if (shopChance < 1) {
+      System.out.println("You found a shop!\n");
+      Shop s = new Shop(player);
     }
-    if (potion) {
-      player.getInv().removeBuffs();
-      potion = false;
+    else {
+      Scanner sc = new Scanner(System.in);
+      System.out.println("You've been attacked!");
+      Monster monster = new Monster("Skeleton");
+      System.out.println("Initializing combat..");
+      boolean potion = false; //if true, at end of combat remove potion buffs
+      int choice;
+      boolean inCombat = true;
+      while (inCombat){
+        System.out.println("\nCombat Options:\n1. Attack    2. Magic");
+        System.out.println("3. Potions   4. Flee\n5: Stats");
+        choice = sc.nextInt();
+        switch(choice) {
+          case 1:
+            if (attack(player, monster)){ inCombat = false;}
+            break;
+          case 2:
+            System.out.println("Magic not coded yet.");
+            break;
+          case 3:
+            potion = player.getInv().potionMenu(player);
+            break;
+          case 4:
+            if (player.p1.getSpd() > monster.getSpd()){ //if faster than monster, always escape
+            System.out.println("You retreat!");
+            inCombat = false;
+          }
+            else { 
+              int rand = r.nextInt(2); // 50% chance of escaping
+              if (rand == 1){
+                System.out.println("You retreat!");
+                inCombat = false;
+              }
+              else{ System.out.println("Failed to retreat!");}
+            }
+            break;
+          case 5:
+            player.showStats();
+            System.out.println();
+            break;
+          default:
+            System.out.println("Invalid choice.");
+        }
+      }
+      if (potion) {
+        player.getInv().removeBuffs();
+        potion = false;
+      }
     }
   }
   
@@ -118,6 +126,8 @@ public class Combat {
     randInt += 6; //between 6 and 15 exp per encounter (for now)
     System.out.println("\nEnemy Defeated! You gained " + randInt + " Exp!");
     player.setExp(player.getExp() + randInt);
+    randInt = r.nextInt(10);
+    player.setGold(player.getGold() + randInt);
     player.checkExp();
     randInt = r.nextInt(100); //random # 0 - 99
     randInt += player.p1.getLck();
