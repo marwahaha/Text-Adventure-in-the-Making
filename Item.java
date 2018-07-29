@@ -52,7 +52,7 @@ public class Item{
     
   public Item itemDrop(){ //drops an item after combat
     Random r = new Random(); //random # from 0 to 24 for now (total of 25 items)
-    int rInt = r.nextInt(25); 
+    int rInt = r.nextInt(24); 
     Item i = new Item(items[rInt]);
     return i;
   }
