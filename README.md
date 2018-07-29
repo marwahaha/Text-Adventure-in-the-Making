@@ -10,3 +10,4 @@ ______ Updates of Recent Changes ______
 7) Character classes created, specified abilties and stats
 8) Combat system added
 9) Potions added, polished up parts of game
+10) Shop added (probably with bugs)
