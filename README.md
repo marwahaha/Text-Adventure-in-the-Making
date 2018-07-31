@@ -12,3 +12,4 @@ ______ Updates of Recent Changes ______
 9) Potions added, polished up parts of game
 10) Shop added (probably with bugs)
 11) Item compare system added upon item drop
+12) Dungeon level and boss fight added (very simple atm)
