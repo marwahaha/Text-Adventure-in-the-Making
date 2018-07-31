@@ -1,26 +1,47 @@
 public class Monster{
     //monsters won't use mana/magic stats?
     private String name;
+    private boolean boss; //?? idk if this boolean is needed
     private int hp, str, def, spd, lck;
-
-    public Monster(String name){
+    
+    private String[] monsters = { //add more later
+      "Skeleton", "Slime"
+    };
+    
+    private String[] bosses = { //add more later
+      "Skeleton King"
+    };
+    
+    public Monster(String name, int dungeonLvl){
         //skeleton & slime basic monsters
         if (name.equals("Skeleton")){
             this.name = name;
-            this.hp = 20;
-            this.str = 4;
-            this.def = 2;
-            this.spd = 1;
-            this.lck = 1;
+            this.hp = 20 + (5*dungeonLvl);
+            this.str = 4 + (3*dungeonLvl);
+            this.def = 2 + (3*dungeonLvl);
+            this.spd = 1 + (3*dungeonLvl);
+            this.lck = 1 + (3*dungeonLvl);
         }
         if (name.equals("Slime")){
             this.name = name;
-            this.hp = 15;
-            this.str = 3;
-            this.def = 3;
-            this.spd = 1;
-            this.lck = 1;
+            this.hp = + (3*dungeonLvl);
+            this.str = + (3*dungeonLvl);
+            this.def = + (3*dungeonLvl);
+            this.spd = + (3*dungeonLvl);
+            this.lck = + (3*dungeonLvl);
         }
+    }
+    
+    public Monster(String boss, int dungeonLvl, boolean isBoss){
+      if (boss.equals("Skeleton King")) {
+        this.boss = isBoss; //?? idk if this boolean is needed
+        this.name = name;
+        this.hp = 80 + (5*dungeonLvl);
+        this.str = 8 + (3*dungeonLvl);
+        this.def = 8 + (3*dungeonLvl);
+        this.spd = 6 + (3*dungeonLvl);
+        this.lck = 3 + (3*dungeonLvl);
+      }
     }
 
     public int attack(){
@@ -33,7 +54,8 @@ public class Monster{
 
     public int getHp(){ 
       if (hp < 0) return 0;
-      else return this.hp; }
+      else return this.hp; 
+    }
     public void setHp(int x){ this.hp = x;}
     public String getName(){ return this.name; }
     public int getStr() { return this.str; }
