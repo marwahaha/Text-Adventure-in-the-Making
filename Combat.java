@@ -180,12 +180,13 @@ public class Combat {
   
   public boolean monsterDead(Player player, Monster monster){
     Random r = new Random();
-    int randInt = r.nextInt(10);
-    randInt += 6; //between 6 and 15 exp per encounter (for now)
-    System.out.println("\nEnemy Defeated! You gained " + randInt + " Exp!");
-    player.setExp(player.getExp() + randInt);
+    int randInt1 = r.nextInt(10) + 6; //exp
+    int randInt2 = r.nextInt(10) + 5; //gold
+    player.setGold(player.getGold() + randInt2);
+    System.out.println("\nEnemy Defeated! You gained " + randInt2 + " gold and " + randInt1 + " Exp!");
+    player.setExp(player.getExp() + randInt1);
     player.checkExp();
-    randInt = r.nextInt(100); //random # 0 - 99
+    int randInt = r.nextInt(100); //random # 0 - 99
     randInt += player.p1.getLck();
     if (randInt >= 70){ //30% chance to drop item (for now) + added chance with player's luck
       Item i = new Item("Rusty Sword"); //making item first

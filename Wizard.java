@@ -1,4 +1,6 @@
-public class Wizard implements Character{
+import java.io.Serializable;
+
+public class Wizard implements Character, Serializable{
   
   private int spd, str, def, lck, mag;
   private String gameClass;

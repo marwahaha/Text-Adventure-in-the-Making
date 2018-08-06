@@ -1,4 +1,6 @@
-public class Warrior implements Character{
+import java.io.Serializable;
+
+public class Warrior implements Character, Serializable{
   
   private int spd, str, def, lck, mag;
   private String gameClass;

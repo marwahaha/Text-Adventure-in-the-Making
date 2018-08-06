@@ -1,7 +1,8 @@
 import java.util.ArrayList;
 import java.util.Random;
+import java.io.Serializable;
 
-public class Item{
+public class Item implements Serializable{
 
     private int str, def, spd, mag, lck; //stat bonuses
     private int hp; //used for potion healing amount

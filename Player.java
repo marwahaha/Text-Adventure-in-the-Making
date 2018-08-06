@@ -1,7 +1,8 @@
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.io.Serializable;
 
-public class Player{
+public class Player implements java.io.Serializable{
 
     //private String gameClass;
     private int lvl;

@@ -1,7 +1,8 @@
 import java.util.LinkedList;
 import java.util.Scanner;
+import java.io.Serializable;
 
-public class Inventory{
+public class Inventory implements java.io.Serializable{
     private final int maxSize = 5;
     private int curSize;
     private LinkedList<Item> inv; //usable potions in combat (not permanent buffs)
