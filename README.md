@@ -14,4 +14,5 @@ ______ Updates of Recent Changes ______
 11) Item compare system added upon item drop
 12) Dungeon level and boss fight added (very simple atm)
 13) Save/Load feature added 
-   -saves txt file to desktop, still need to check if dungeon levels and # of encounters get correctly saved and other bugs 
+   -saves txt file to desktop
+14) Fixed bugs with shop crashing game, save/loads should work correctly also
