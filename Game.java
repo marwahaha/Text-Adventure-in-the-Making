@@ -42,7 +42,7 @@ public class Game{
   public static boolean inGame(int dungeonLvl, int encounters, Player p){
     //increase level after boss
     //boss after 10 encounters
-    System.out.println(dungeonLvl + ", " + encounters);
+    //System.out.println(dungeonLvl + ", " + encounters);
     Scanner input = new Scanner(System.in);
     int result;
     System.out.println("You enter the dungeon!");
