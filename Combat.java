@@ -4,6 +4,8 @@ import java.util.Random;
 
 public class Combat {
   
+  private boolean shop = false;
+  
   public Combat(Player player, int dungeonLvl, int encounters){
     if (encounters == 10) { //boss
       bossFight(player, dungeonLvl);
@@ -11,8 +13,9 @@ public class Combat {
     else {
       Random r = new Random();
       int shopChance = r.nextInt(9);
-      if (shopChance < 1) {
+      if (shopChance < 2 && shop == false) { //20% chance for shop
         System.out.println("You found a shop!\n");
+        shop = true; 
         Shop s = new Shop(player);
       }
       else {

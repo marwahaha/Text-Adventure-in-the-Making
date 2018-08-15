@@ -39,10 +39,10 @@ public class Game{
     }
   }
   
-  public static boolean inGame(int dunLvl, int encounter, Player p){
-    //Player p = new Player();
-    int dungeonLvl = 0; //increase level after boss
-    int encounters = 0; //boss after 10 encounters
+  public static boolean inGame(int dungeonLvl, int encounters, Player p){
+    //increase level after boss
+    //boss after 10 encounters
+    System.out.println(dungeonLvl + ", " + encounters);
     Scanner input = new Scanner(System.in);
     int result;
     System.out.println("You enter the dungeon!");
@@ -103,7 +103,7 @@ public class Game{
       
       objectStream.close();   
       fileStream.close();   
-    
+      
       System.out.println("Successfully saved game state!");
     }  
     catch (Exception e) {   
@@ -121,8 +121,8 @@ public class Game{
       ObjectInputStream objectStream = new ObjectInputStream(fileStream);
       
       Player p = (Player) objectStream.readObject();
-      int dungeonLvl = (int) objectStream.read();
-      int encounters = (int) objectStream.read();
+      int dungeonLvl = objectStream.read();
+      int encounters = objectStream.read();
       
       System.out.println("Successfully loaded save!");
       

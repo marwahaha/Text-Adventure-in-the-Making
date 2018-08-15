@@ -24,11 +24,11 @@ public class Monster{
         }
         if (name.equals("Slime")){
             this.name = name;
-            this.hp = + (3*dungeonLvl);
-            this.str = + (3*dungeonLvl);
-            this.def = + (3*dungeonLvl);
-            this.spd = + (3*dungeonLvl);
-            this.lck = + (3*dungeonLvl);
+            this.hp = 20 + (3*dungeonLvl);
+            this.str = 2 + (3*dungeonLvl);
+            this.def = 4 + (3*dungeonLvl);
+            this.spd = 1 + (3*dungeonLvl);
+            this.lck = 1 + (3*dungeonLvl);
         }
     }
     
@@ -36,10 +36,10 @@ public class Monster{
       if (boss.equals("Skeleton King")) {
         this.boss = isBoss; //?? idk if this boolean is needed
         this.name = name;
-        this.hp = 80 + (5*dungeonLvl);
-        this.str = 8 + (3*dungeonLvl);
-        this.def = 8 + (3*dungeonLvl);
-        this.spd = 6 + (3*dungeonLvl);
+        this.hp = 60 + (5*dungeonLvl);
+        this.str = 6 + (3*dungeonLvl);
+        this.def = 6 + (3*dungeonLvl);
+        this.spd = 5 + (3*dungeonLvl);
         this.lck = 3 + (3*dungeonLvl);
       }
     }
