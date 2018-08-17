@@ -26,18 +26,18 @@ public class Item implements Serializable{
   public Item(String name){
     if (name.equals("Rusty Sword"))          {str = 2; def = 0; spd = 0; mag = 0; lck = 0; desc = name; type = "wep";}
     if (name.equals("Rusty Armor"))          {str = 0; def = 2; spd = 0; mag = 0; lck = 0; desc = name; type = "body";}
-    if (name.equals("Rusty Helmet"))         {str = 0; def = 1; spd = 0; mag = 0; lck = 0; desc = name; type = "head";}
-    if (name.equals("Rusty Boots"))          {str = 0; def = 1; spd = 0; mag = 0; lck = 0; desc = name; type = "feet";}
-    if (name.equals("Rusty Gauntlets"))      {str = 0; def = 1; spd = 0; mag = 0; lck = 0; desc = name; type = "arms";}
-    if (name.equals("Rusty Dagger"))         {str = 1; def = 0; spd = 0; mag = 0; lck = 1; desc = name; type = "wep";}
-    if (name.equals("Leather Cowl"))         {str = 0; def = 1; spd = 0; mag = 0; lck = 0; desc = name; type = "head";}
-    if (name.equals("Leather Armor"))        {str = 0; def = 1; spd = 1; mag = 0; lck = 0; desc = name; type = "body";}
-    if (name.equals("Leather Boots"))        {str = 0; def = 1; spd = 0; mag = 0; lck = 0; desc = name; type = "feet";}
-    if (name.equals("Leather Gauntlets"))    {str = 0; def = 1; spd = 0; mag = 0; lck = 0; desc = name; type = "arms";}
-    if (name.equals("Old Staff"))            {str = 0; def = 0; spd = 0; mag = 2; lck = 0; desc = name; type = "wep";}
-    if (name.equals("Dusty Hood"))           {str = 0; def = 0; spd = 0; mag = 1; lck = 0; desc = name; type = "head";}
-    if (name.equals("Old Robe"))             {str = 0; def = 1; spd = 0; mag = 1; lck = 0; desc = name; type = "body";}
-    if (name.equals("Old Slippers"))         {str = 0; def = 0; spd = 0; mag = 1; lck = 0; desc = name; type = "feet";}
+    if (name.equals("Rusty Helmet"))         {str = 0; def = 2; spd = 0; mag = 0; lck = 0; desc = name; type = "head";}
+    if (name.equals("Rusty Boots"))          {str = 0; def = 2; spd = 0; mag = 0; lck = 0; desc = name; type = "feet";}
+    if (name.equals("Rusty Gauntlets"))      {str = 0; def = 2; spd = 0; mag = 0; lck = 0; desc = name; type = "arms";}
+    if (name.equals("Rusty Dagger"))         {str = 1; def = 0; spd = 1; mag = 0; lck = 1; desc = name; type = "wep";}
+    if (name.equals("Leather Cowl"))         {str = 0; def = 1; spd = 1; mag = 0; lck = 1; desc = name; type = "head";}
+    if (name.equals("Leather Armor"))        {str = 0; def = 1; spd = 1; mag = 0; lck = 1; desc = name; type = "body";}
+    if (name.equals("Leather Boots"))        {str = 0; def = 1; spd = 1; mag = 0; lck = 1; desc = name; type = "feet";}
+    if (name.equals("Leather Gauntlets"))    {str = 0; def = 1; spd = 1; mag = 0; lck = 1; desc = name; type = "arms";}
+    if (name.equals("Old Staff"))            {str = 0; def = 1; spd = 0; mag = 2; lck = 0; desc = name; type = "wep";}
+    if (name.equals("Dusty Hood"))           {str = 0; def = 1; spd = 0; mag = 2; lck = 0; desc = name; type = "head";}
+    if (name.equals("Old Robe"))             {str = 0; def = 1; spd = 0; mag = 2; lck = 0; desc = name; type = "body";}
+    if (name.equals("Old Slippers"))         {str = 0; def = 1; spd = 1; mag = 1; lck = 0; desc = name; type = "feet";}
     if (name.equals("Old Armwraps"))         {str = 0; def = 1; spd = 0; mag = 1; lck = 0; desc = name; type = "arms";}
     if (name.equals("Lucky Ring"))           {str = 0; def = 0; spd = 0; mag = 0; lck = 2; desc = name; type = "ring";}
     if (name.equals("Ring of Might"))        {str = 2; def = 0; spd = 0; mag = 0; lck = 0; desc = name; type = "ring";}
@@ -47,25 +47,23 @@ public class Item implements Serializable{
     if (name.equals("Potion of Strength"))   {str = 3; def = 0; spd = 0; mag = 0; lck = 0; desc = name; type = "potion";}
     if (name.equals("Potion of Stoneskin"))  {str = 0; def = 3; spd = 0; mag = 0; lck = 0; desc = name; type = "potion";}
     if (name.equals("Healing Potion (S)"))   {hp = 20; desc = name; type = "potion";}
-    if (name.equals("Healing Potion (M)"))   {hp = 40; desc = name; type = "potion";}
-    if (name.equals("Healing Potion (L)"))   {hp = 80; desc = name; type = "potion";}
+    if (name.equals("Healing Potion (M)"))   {hp = 30; desc = name; type = "potion";}
+    if (name.equals("Healing Potion (L)"))   {hp = 40; desc = name; type = "potion";}
   }
   
   public Item itemDrop(){ //drops an item after combat
     Random r = new Random(); //random # from 0 to 24 for now (total of 25 items)
     int rInt = r.nextInt(24);
-   // System.out.println(rInt);
     Item i = new Item(items[rInt]);
     return i;
   }
   
   public void getStats(){
-    System.out.println("------------");
-    System.out.println("Strength: "+getStr());
-    System.out.println("Defense: "+getDef());
-    System.out.println("Magic: "+getMag());
-    System.out.println("Speed: "+getSpd());
-    System.out.println("Luck: "+getLck());
+    System.out.println("STR: "+getStr());
+    System.out.println("DEF: "+getDef());
+    System.out.println("MAG: "+getMag());
+    System.out.println("SPD: "+getSpd());
+    System.out.println("LCK: "+getLck());
     System.out.println("------------");
   }
   

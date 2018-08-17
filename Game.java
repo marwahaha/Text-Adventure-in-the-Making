@@ -10,6 +10,7 @@ import java.io.FileNotFoundException;
 public class Game{
   
   public static void main(String[] arg){
+//    boolean save = false;
     Scanner sc = new Scanner(System.in);
     boolean quit = false;
     int menuChoice;
@@ -25,12 +26,21 @@ public class Game{
           quit = inGame(0, 0, p);
           break;
         case 2:
-          System.out.println("Continuing save..");
-          quit = load();
+//          if (save == false) {
+//          System.out.println("No save file to load!");
+//        }
+//          else {
+            System.out.println("Continuing save..");
+            quit = load();
+//          }
           break;
         case 3:
           System.out.println("Exiting game..");
           //quit
+//          if (save == false) {
+//            System.out.println("WARNING: No save has been made for this playthrough!");
+//            System.out.println("Do you still want to exit?");
+//          }
           quit = true;
           break;
         default:
@@ -80,7 +90,7 @@ public class Game{
           save(dungeonLvl, encounters, p);
           break;
         case 5:
-          System.out.println("Quitting");
+          System.out.println("Quitting game..");
           inProgress = false;
           break;
         default:
@@ -148,7 +158,7 @@ public class Game{
   }
   
   public static boolean invMenu(Player player){ //return true if potion was used out of combat else false
-    System.out.println("\n1. Equipment\n2. Potions\n3. Back");
+    System.out.println("\n1. Equipment\n2. Inventory\n3. Back");
     Scanner s = new Scanner(System.in);
     int choice = s.nextInt();
     boolean potion = false;

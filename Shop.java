@@ -51,44 +51,63 @@ public class Shop{
   }
   
   public void buy(String item, int index, Player p) {
-    Item i = new Item(item);
-    if (p.getInv().getSize() >= 5) {
+    if (items[index] == null) {
+      System.out.println("You already bought this item!\n");
+    }
+    else if (p.getInv().getSize() >= 5) {
       System.out.println("Your bag is too full!");
     } 
     else if ((p.getGold() - prices[index]) < 0) {
-      System.out.println("You do not have enough gold to buy " + i.getDesc() + ".\n");
+      System.out.println("You do not have enough gold to buy " + item + ".\n");
     } 
     else {
+      Item i = new Item(item);
       System.out.println("You want to buy " + i.getDesc() + " for " + prices[index] + " gold?");
       System.out.println("1. Yes");
       System.out.println("2. No");
       Scanner s = new Scanner(System.in);
-      int choice = s.nextInt();
-      if (choice == 1) {
-        if (p.getGold() >= prices[index]) {
-          p.setGold(p.getGold() - prices[index]); //subtract gold
-          if (!i.getType().equals("potion")) { //if not a potion
-            if (p.getItem(i.getType()) != null) {
-              p.unequip(i.getType());
+      boolean loop = true;
+      while (loop){
+        int choice = s.nextInt();
+        switch (choice) {
+          case 1:
+            System.out.println("Do you want to equip " + i.getDesc() + "?\n1. Yes \n2. No");
+            boolean loop2 = true;
+            while (loop2) {
+              int c = s.nextInt();
+              switch(c) {
+                case 1:
+                  p.setGold(p.getGold() - prices[index]); //subtract gold
+                  p.equip(i);
+                  System.out.println("You equipped " + i.getDesc() + ".\n");
+                  items[index] = null;
+                  prices[index] = 0;
+                  size--;
+                  loop2 = false;
+                  break;
+                case 2:
+                  p.setGold(p.getGold() - prices[index]); //subtract gold
+                  p.getInv().addItem(i); //add item
+                  System.out.println("You put " + i.getDesc() + " in your inventory.\n");
+                  //remove item from shop
+                  items[index] = null;
+                  prices[index] = 0;
+                  size--;
+                  loop2 = false;
+                  break;
+                default:
+                  System.out.println("Invalid choice.");
+              }
             }
-            System.out.println("You equipped " + i.getDesc() + ".");
-            p.equip(i);
-          } 
-          else { //if a potion
-            p.getInv().addItem(i); //add item
-          }
-          //remove item from shop
-          for (int x = 0; x < size; x++) {
-            if (i.getDesc().equals(items[x])) {
-              items[x] = null;
-            }
-          }
-          prices[index] = 0;
-          size--;
+            loop = false;
+            break;
+          case 2:
+            System.out.println("You chose to not buy the " + i.getDesc() + ".\n");
+            loop = false;
+            break;
+          default:
+            System.out.println("Invalid choice.");
         }
-      }
-      else {
-        System.out.println("You chose to not buy the " + i.getDesc() + ".\n");
       }
     }
   }
@@ -159,26 +178,41 @@ public class Shop{
           if (p.getInv().getSize() >= 1) {
           sell(p.getInv().getItem(0), p, yourPrices[0]);
         }
+          else {
+            System.out.println("You have nothing to sell!\n");
+          }
           break;
         case 2:
           if (p.getInv().getSize() >= 2) {
           sell(p.getInv().getItem(1), p, yourPrices[1]);
         }
+          else {
+            System.out.println("You have nothing to sell!\n");
+          }
           break;
         case 3:
           if (p.getInv().getSize() >= 3) {
           sell(p.getInv().getItem(2), p, yourPrices[2]);
         }
+          else {
+            System.out.println("You have nothing to sell!\n");
+          }
           break;
         case 4:
           if (p.getInv().getSize() >= 4) {
           sell(p.getInv().getItem(3), p, yourPrices[3]);
         }
+          else {
+            System.out.println("You have nothing to sell!\n");
+          }
           break;
         case 5:
           if (p.getInv().getSize() >= 5) {
           sell(p.getInv().getItem(4), p, yourPrices[4]);
         }
+          else {
+            System.out.println("You have nothing to sell!\n");
+          }
           break;
         case 6:
           System.out.println("You leave the shop.");
@@ -199,17 +233,27 @@ public class Shop{
   }
   
   public void sell(Item i, Player p, int price){
-    System.out.println("You want to sell your " + i.getDesc() + " for " + price + " gold?");
+    System.out.println("Do you want to sell your " + i.getDesc() + " for " + price + " gold?");
     System.out.println("1. Yes");
     System.out.println("2. No");
     Scanner s = new Scanner(System.in);
     int choice = s.nextInt();
-    if (choice == 1) {
-      p.getInv().removeItem(i);
-      p.setGold(p.getGold() + price);
-    }
-    else {
-      System.out.println("You chose not to sell " + i.getDesc() + ".");
+    boolean loop = true;
+    while (loop){
+      switch (choice){
+        case 1:
+          p.getInv().removeItem(i);
+          p.setGold(p.getGold() + price);
+          System.out.println("You sold " + i.getDesc() + " for " + price + " gold.\n");
+          loop = false;
+          break;
+        case 2:
+          System.out.println("You chose not to sell " + i.getDesc() + ".");
+          loop = false;
+          break;
+        default:
+          System.out.println("Invalid choice.");
+      }
     }
   }
   
@@ -223,6 +267,7 @@ public class Shop{
     for (i = 0; i < pInvSize; i++){
       salePrice = r.nextInt(10) + 5; //random-ish sale price for each item the player has
       yourPrices[yourIndex++] = salePrice;
+      if (yourIndex > 4) {yourIndex = 4;}
       System.out.println((i+1) + ". Price: " + salePrice + " | " + p.getInv().getItem(i).getDesc());
     }
     while (i < 5){
@@ -235,7 +280,7 @@ public class Shop{
   }
   
   public static void invMenu(Player player){
-    System.out.println("\n1. Equipment\n2. Potions\n3. Back");
+    System.out.println("\n1. Equipment\n2. Inventory\n3. Back");
     Scanner s = new Scanner(System.in);
     int choice = s.nextInt();
     boolean loop = true;

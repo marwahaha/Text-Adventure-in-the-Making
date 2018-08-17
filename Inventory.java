@@ -29,12 +29,12 @@ public class Inventory implements java.io.Serializable{
     }
   }
   
-  public boolean useItem(int x){ //use for duration of combat
+  public boolean useItem(int x){ 
     if (x >= curSize) {
       System.out.println("There is no item to use!");
       return false;
     }
-    else {
+    else if (getItem(x).getType().equals("potion")) { //item is potion
       potionsUsed[potionIndex++] = x; //store which potion was used
       if (potionIndex > 4){ potionIndex = 4;}
       Item i = inv.get(x);
@@ -49,8 +49,41 @@ public class Inventory implements java.io.Serializable{
       inv.remove(i);
       usedInv.add(i);
       curSize--;
-      return true;
     }
+    else { //item is equipment
+      Scanner s = new Scanner(System.in);
+      System.out.println("Do you want to equip " + getItem(x).getDesc() + "?");
+      System.out.println("1: Yes\n2: No");
+      boolean decided = false;
+      while (decided == false){
+        int c = s.nextInt();
+        switch(c) {
+          case 1:
+            if (p.getItem(getItem(x).getType()) == null) {
+            p.equip(getItem(x));
+            System.out.println("You equipped " + getItem(x).getDesc() + ".");
+          }
+            else {
+              Item replaced = p.getItem(getItem(x).getType());
+              p.unequip(getItem(x).getType());
+              p.equip(getItem(x));
+              removeItem(getItem(x));
+              addItem(replaced);
+              System.out.println("You equipped " + getItem(x).getDesc() + " and put " + replaced.getDesc() + " in your inventory."); 
+            }
+            decided = true;
+            break;
+          case 2:
+            System.out.println("You leave the " + getItem(x).getDesc() + "in your inventory.");  
+            decided = true;
+            break;
+          default:
+            System.out.println("Invalid choice.");
+            break;
+        }
+      }
+    }
+    return true;
   }
   
   public void removeBuffs(){ //used to take away buffs when combat ends
@@ -74,14 +107,14 @@ public class Inventory implements java.io.Serializable{
   
   public void showInventory(){
     if (curSize == 0) {
-      System.out.println("\nPotions:\n1. Empty");
+      System.out.println("\nInventory:\n1. Empty");
       System.out.println("2. Empty");
       System.out.println("3. Empty");
       System.out.println("4. Empty");
       System.out.println("5. Empty");
     }
     else {
-      System.out.println("\nPotions:");
+      System.out.println("\nInventory:");
       int i;
       for (i = 0; i < curSize; i++){
         System.out.println(i+1 + ". " + inv.get(i).getDesc());

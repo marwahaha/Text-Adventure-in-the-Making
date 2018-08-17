@@ -4,8 +4,6 @@ import java.util.Random;
 
 public class Combat {
   
-  private boolean shop = false;
-  
   public Combat(Player player, int dungeonLvl, int encounters){
     if (encounters == 10) { //boss
       bossFight(player, dungeonLvl);
@@ -13,9 +11,8 @@ public class Combat {
     else {
       Random r = new Random();
       int shopChance = r.nextInt(9);
-      if (shopChance < 2 && shop == false) { //20% chance for shop
+      if (shopChance < 1 && encounters > 4) { //10% chance for shop
         System.out.println("You found a shop!\n");
-        shop = true; 
         Shop s = new Shop(player);
       }
       else {
@@ -46,16 +43,17 @@ public class Combat {
               if (player.p1.getSpd() > monster.getSpd()) { //if faster than monster, always escape
               System.out.println("You retreat!");
               inCombat = false;
-            } else {
-              int rand = r.nextInt(2); // 50% chance of escaping
-              if (rand == 1) {
-                System.out.println("You retreat!");
-                inCombat = false;
-              } else {
-                System.out.println("Failed to retreat!");
+            } 
+              else {
+                int rand = r.nextInt(2); // 50% chance of escaping
+                if (rand == 1) {
+                  System.out.println("You retreat!");
+                  inCombat = false;
+                } else {
+                  System.out.println("Failed to retreat!");
+                }
               }
-            }
-            break;
+              break;
             case 5:
               player.showStats();
               System.out.println();
@@ -101,16 +99,18 @@ public class Combat {
           if (p.p1.getSpd() > boss.getSpd()) { //if faster than monster, always escape
           System.out.println("You retreat!");
           inCombat = false;
-        } else {
-          int rand = r.nextInt(2); // 50% chance of escaping
-          if (rand == 1) {
-            System.out.println("You retreat!");
-            inCombat = false;
-          } else {
-            System.out.println("Failed to retreat!");
+        } 
+          else {
+            int rand = r.nextInt(2); // 50% chance of escaping
+            if (rand == 1) {
+              System.out.println("You retreat!");
+              inCombat = false;
+            }
+            else {
+              System.out.println("Failed to retreat!");
+            }
           }
-        }
-        break;
+          break;
         case 5:
           p.showStats();
           System.out.println();
@@ -183,7 +183,7 @@ public class Combat {
   
   public boolean monsterDead(Player player, Monster monster){
     Random r = new Random();
-    int randInt1 = r.nextInt(10) + 6; //exp
+    int randInt1 = r.nextInt(10) + 5; //exp
     int randInt2 = r.nextInt(10) + 5; //gold
     player.setGold(player.getGold() + randInt2);
     System.out.println("\nEnemy Defeated! You gained " + randInt2 + " gold and " + randInt1 + " Exp!");
@@ -203,30 +203,71 @@ public class Combat {
       }
       Scanner sc = new Scanner(System.in);
       boolean decided = false;
-      while(!decided) {
+      while (!decided) {
         System.out.println("1: Yes \n2: No");
-        if(!i.getType().equals("potion")){System.out.println("3: Compare Item");}
+        if(!i.getType().equals("potion")){ System.out.println("3: Compare Item");}
         int c = sc.nextInt();
         switch(c) {
-          case 1: //if player already has item in corresponding slot, unequip it then equip new item
+          case 1: //if player already has item in corresponding slot, add it to inventory
             if (i.getType().equals("potion")) { //if the dropped item is a potion, add to inventory
             player.getInv().addItem(i);
           }
-            if (player.getItem(i.getDesc()) != null) {
-              player.unequip(i.getDesc());
+            if (player.getItem(i.getType()) != null) {
+              System.out.println("You already have " + player.getItem(i.getType()).getDesc() 
+                                   + " equipped, do you want to put " + i.getDesc() + " in your inventory?\n1. Yes\n2. No");
+              int c2 = sc.nextInt();
+              boolean decided2 = false;
+              while (decided2 == false) {
+                switch(c2) {
+                  case 1:
+                    player.getInv().addItem(i);
+                    System.out.println(i.getDesc() + " was put in your inventory.");
+                    decided2 = true;
+                    break;
+                  case 2:
+                    System.out.println("You leave the " + i.getDesc() + " behind.");
+                    decided2 = true;
+                    break;
+                  default:
+                    System.out.println("Invalid input.");
+                    break;
+                }
+              }
             }
-            player.equip(i);
+            else {
+              player.equip(i);
+              System.out.println("You equipped the " + i.getDesc() + ".");
+            }
             decided=true;
             break;
           case 2:
-            System.out.println("You leave the " + i.getDesc() + " behind.");
+            System.out.println("Do you want to put the " + i.getDesc() + " into your inventory?");
+            System.out.println("1: Yes \n2: No");
+            int c3 = sc.nextInt();
+            boolean decided2 = false;
+            while (decided2 == false) {
+              switch(c3) {
+                case 1:
+                  player.getInv().addItem(i);
+                  System.out.println(i.getDesc() + " was put in your inventory.");
+                  decided2 = true;
+                  break;
+                case 2:
+                  System.out.println("You leave the " + i.getDesc() + " behind.");
+                  decided2 = true;
+                  break;
+                default:
+                  System.out.println("Invalid input.");
+                  break;
+              }
+            }
             decided=true;
             break;
           case 3:
             player.compareItem(i);
             break;
           default:
-            System.out.println("Invalid input");
+            System.out.println("Invalid input.");
             break;
         }
       }

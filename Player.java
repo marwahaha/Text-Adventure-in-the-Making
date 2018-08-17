@@ -14,15 +14,14 @@ public class Player implements java.io.Serializable{
   public Character p1; //pONE
   
   //items that are equipped
-  private Item head, body, feet, arms, ring1, wep;
+  private Item head, body, feet, arms, ring, wep;
   
   //items that are stored as consumables
   private Inventory inv;
   
-  
   public Player(){
     this.inv = new Inventory(this);
-    this.head = body = feet = arms = ring1 = wep = null;
+    this.head = body = feet = arms = ring = wep = null;
     this.lvl = 1;
     this.maxExp = 50;
     this.exp = gold = 0;
@@ -31,9 +30,9 @@ public class Player implements java.io.Serializable{
     boolean loop = true;
     while (loop) {
       System.out.println("\nChoose your class:");
-      System.out.println("1: Warrior");
-      System.out.println("2: Rogue");
-      System.out.println("3: Wizard");
+      System.out.println("1. Warrior");
+      System.out.println("2. Rogue");
+      System.out.println("3. Wizard");
       choice = sc2.nextInt();
       switch(choice){
         case 1:
@@ -73,15 +72,15 @@ public class Player implements java.io.Serializable{
   }
   
   public void showStats(){
-    System.out.println("HP: " + hp + "/" + maxHp +
+    System.out.println("\nHP: " + hp + "/" + maxHp +
                        " | MP: " + mana + "/" + maxMana +
                        " | EXP: " + exp + "/" + maxExp +
                        " | Gold: " + gold);
-    System.out.println("STR: " + p1.getStr());
-    System.out.println("DEF: " + p1.getDef());
-    System.out.println("SPD: " + p1.getSpd());
-    System.out.println("MAG: " + p1.getMag());
-    System.out.println("LCK: " + p1.getLck());
+    System.out.println("STR: " + p1.getStr() + " | " + 
+                       "DEF: " + p1.getDef() + " | " + 
+                       "MAG: " + p1.getMag() + " | " + 
+                       "SPD: " + p1.getSpd() + " | " + 
+                       "LCK: " + p1.getLck());
   }
   
   public boolean checkExp(){ //to check if character is able to level up
@@ -109,11 +108,11 @@ public class Player implements java.io.Serializable{
     while (points > 0) {
       System.out.println("You have " + points + " stat points to allocate!");
       System.out.println("Choose stat to allocate: ");
-      System.out.println("1: Strength");
-      System.out.println("2: Defense");
-      System.out.println("3: Speed");
-      System.out.println("4: Magic");
-      System.out.println("5: Luck");
+      System.out.println("1. Strength");
+      System.out.println("2. Defense");
+      System.out.println("3. Speed");
+      System.out.println("4. Magic");
+      System.out.println("5. Luck");
       choice = sc3.nextInt();
       switch(choice){
         case 1:
@@ -182,7 +181,7 @@ public class Player implements java.io.Serializable{
     if (i.getType().equals("body")) this.body = i;
     if (i.getType().equals("feet")) this.feet = i;
     if (i.getType().equals("arms")) this.arms = i;
-    if (i.getType().equals("ring")) this.ring1 = i;
+    if (i.getType().equals("ring")) this.ring = i;
     if (i.getType().equals("wep")) this.wep = i;
     p1.setStr(p1.getStr() + i.getStr());
     p1.setDef(p1.getDef() + i.getDef());
@@ -202,7 +201,7 @@ public class Player implements java.io.Serializable{
     if (slot.equals("body")) this.body = null;
     if (slot.equals("feet")) this.feet = null;
     if (slot.equals("arms")) this.arms = null;
-    if (slot.equals("ring1")) this.ring1 = null;
+    if (slot.equals("ring")) this.ring = null;
     if (slot.equals("wep")) this.wep = null;
   }
   
@@ -211,24 +210,20 @@ public class Player implements java.io.Serializable{
     if (slot.equals("body")) return this.body;
     if (slot.equals("feet")) return this.feet;
     if (slot.equals("arms")) return this.arms;
-    if (slot.equals("ring1")) return this.ring1;
+    if (slot.equals("ring")) return this.ring;
     if (slot.equals("wep")) return this.wep;
     else return null;
   }
   
   public void compareItem(Item item) {
     String itemType = item.getType();
-    if (itemType.equals("ring")) {
-      itemType = "ring1";
-    }
     Item equippedItem = getItem(itemType);
     System.out.println("Equipped:");
-    if(equippedItem!=null){ equippedItem.getStats();}
-    else{ System.out.println("------------\nEmpty\n------------"); }
+    if (equippedItem!=null){ equippedItem.getStats();}
+    else { System.out.println("------------\nEmpty\n------------"); }
     System.out.println("Dropped:");
     item.getStats();
   }
-  
   
   public Inventory getInv(){ return this.inv;}
   public int getHp(){
@@ -258,7 +253,7 @@ public class Player implements java.io.Serializable{
     else System.out.println("Arms: Empty");
     if (getItem("feet") != null){ System.out.println("Feet: " + feet.getDesc());}
     else System.out.println("Feet: Empty");
-    if (getItem("ring1") != null){ System.out.println("Ring: " + ring1.getDesc());}
+    if (getItem("ring") != null){ System.out.println("Ring: " + ring.getDesc());}
     else System.out.println("Ring: Empty");
     if (getItem("wep") != null){ System.out.println("Weapon: " + wep.getDesc());}
     else System.out.println("Weapon: Empty");
