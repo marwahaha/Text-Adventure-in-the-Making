@@ -16,3 +16,6 @@ ______ Updates of Recent Changes ______
 13) Save/Load feature added 
    -saves txt file to desktop
 14) Fixed bugs with shop crashing game, save/loads should work correctly also
+15) Fixed more bugs with shop not working correctly, added quality of life options
+   -inventory can now hold things others than potions
+   -able to choose to equip item or put it in inventory on item drop or shop purchase
