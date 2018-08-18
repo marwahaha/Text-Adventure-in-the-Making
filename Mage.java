@@ -1,24 +1,21 @@
 import java.io.Serializable;
 import java.util.ArrayList;
-
-public class Warrior implements Character, Serializable{
+public class Mage implements Character, Serializable{
   
   private int spd, str, def, lck, mag;
   private String gameClass;
-  private ArrayList<Magic> magic;
   
   public void createChar() {
-    this.gameClass = "Warrior";
-    this.str = 5;
-    this.def = 4;
+    this.gameClass = "Mage";
+    this.str = 1;
+    this.def = 3;
     this.spd = 3;
     this.lck = 1;
-    this.mag = 1;
-    this.magic = new ArrayList<Magic>();
+    this.mag = 5;
   }
-  
+
   public int regAtk(){
-    return str;
+    return mag;
   }
   
   public int getStr() { return this.str; }

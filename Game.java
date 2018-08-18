@@ -10,7 +10,6 @@ import java.io.FileNotFoundException;
 public class Game{
   
   public static void main(String[] arg){
-//    boolean save = false;
     Scanner sc = new Scanner(System.in);
     boolean quit = false;
     int menuChoice;
@@ -26,21 +25,12 @@ public class Game{
           quit = inGame(0, 0, p);
           break;
         case 2:
-//          if (save == false) {
-//          System.out.println("No save file to load!");
-//        }
-//          else {
             System.out.println("Continuing save..");
             quit = load();
-//          }
           break;
         case 3:
           System.out.println("Exiting game..");
           //quit
-//          if (save == false) {
-//            System.out.println("WARNING: No save has been made for this playthrough!");
-//            System.out.println("Do you still want to exit?");
-//          }
           quit = true;
           break;
         default:
@@ -52,7 +42,6 @@ public class Game{
   public static boolean inGame(int dungeonLvl, int encounters, Player p){
     //increase level after boss
     //boss after 10 encounters
-    //System.out.println(dungeonLvl + ", " + encounters);
     Scanner input = new Scanner(System.in);
     int result;
     System.out.println("You enter the dungeon!");

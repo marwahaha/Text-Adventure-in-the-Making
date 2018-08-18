@@ -1,5 +1,6 @@
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.util.Random;
 import java.io.Serializable;
 
 public class Player implements java.io.Serializable{
@@ -11,7 +12,7 @@ public class Player implements java.io.Serializable{
   private int maxMana, mana; //each point in magic increases mana by 5
   private int gold;
   //each class begins with 13 stat points distributed,each level up lets you add 3 where you want
-  public Character p1; //pONE
+  private Character p1; //pONE
   
   //items that are equipped
   private Item head, body, feet, arms, ring, wep;
@@ -19,7 +20,11 @@ public class Player implements java.io.Serializable{
   //items that are stored as consumables
   private Inventory inv;
   
+  //magic skills
+  private Magic magic; 
+  
   public Player(){
+    this.magic = new Magic(this);
     this.inv = new Inventory(this);
     this.head = body = feet = arms = ring = wep = null;
     this.lvl = 1;
@@ -32,7 +37,7 @@ public class Player implements java.io.Serializable{
       System.out.println("\nChoose your class:");
       System.out.println("1. Warrior");
       System.out.println("2. Rogue");
-      System.out.println("3. Wizard");
+      System.out.println("3. Mage");
       choice = sc2.nextInt();
       switch(choice){
         case 1:
@@ -56,9 +61,9 @@ public class Player implements java.io.Serializable{
           loop = false;
           break;
         case 3:
-          System.out.println("Welcome, Wizard.");
+          System.out.println("Welcome, Mage.");
           this.maxHp = hp = 35;
-          p1 = new Wizard();
+          p1 = new Mage();
           p1.createChar();
           i = new Item("Old Staff");
           equip(i);
@@ -78,7 +83,7 @@ public class Player implements java.io.Serializable{
                        " | Gold: " + gold);
     System.out.println("STR: " + p1.getStr() + " | " + 
                        "DEF: " + p1.getDef() + " | " + 
-                       "MAG: " + p1.getMag() + " | " + 
+                       "WIS: " + p1.getMag() + " | " + 
                        "SPD: " + p1.getSpd() + " | " + 
                        "LCK: " + p1.getLck());
   }
@@ -97,10 +102,10 @@ public class Player implements java.io.Serializable{
     System.out.println("LEVEL UP!");
     this.maxHp += 10;
     this.hp = maxHp;
+    this.maxMana += 1;
     this.mana = maxMana;
     this.maxExp += 10;
     this.exp = 0;
-    
     Scanner sc3 = new Scanner(System.in);
     int points = 3;
     int choice;
@@ -108,11 +113,11 @@ public class Player implements java.io.Serializable{
     while (points > 0) {
       System.out.println("You have " + points + " stat points to allocate!");
       System.out.println("Choose stat to allocate: ");
-      System.out.println("1. Strength");
-      System.out.println("2. Defense");
-      System.out.println("3. Speed");
-      System.out.println("4. Magic");
-      System.out.println("5. Luck");
+      System.out.println("1. STR");
+      System.out.println("2. DEF");
+      System.out.println("3. SPD");
+      System.out.println("4. WIS");
+      System.out.println("5. LCK");
       choice = sc3.nextInt();
       switch(choice){
         case 1:
@@ -174,6 +179,16 @@ public class Player implements java.io.Serializable{
     }
     this.lvl++;
     System.out.println("You are now Level " + lvl + "!");
+    // learn new magic skill on level 3, 5, 7 (?)
+    if (lvl == 3) {
+      magic.learn(0);
+    }
+    else if (lvl == 5) {
+      magic.learn(1);
+    }
+    else if (lvl == 7) {
+      magic.learn(2);
+    }
   }
   
   public void equip(Item i){
@@ -242,7 +257,10 @@ public class Player implements java.io.Serializable{
   public void setExp(int x){ this.exp = x;}
   public int getGold(){ return this.gold;}
   public void setGold(int x){ this.gold = x;}
-  public void takeDmg(int x){hp -= x;}
+  public void takeDmg(int x){ hp -= x;}
+  public String getGameClass(){ return this.p1.getGameClass();}
+  public Character getChar(){ return this.p1;}
+  public Magic getMagic() {return this.magic;}
   
   public void showEquipped(){ //shows equipped items
     if (getItem("head") != null){ System.out.println("Head: " + head.getDesc());}
@@ -257,5 +275,29 @@ public class Player implements java.io.Serializable{
     else System.out.println("Ring: Empty");
     if (getItem("wep") != null){ System.out.println("Weapon: " + wep.getDesc());}
     else System.out.println("Weapon: Empty");
+  }
+  
+  public boolean evadeP(Player player){
+    Random r = new Random();
+    int rand = r.nextInt(100); //0-99
+    rand += p1.getSpd();
+    if (rand >= 90) return true; //initial 10% chance to evade, increases with speed
+    else return false;
+  }
+  
+  public boolean critP(Player p){
+    Random r = new Random();
+    int rand = r.nextInt(100); //initial 10% chance to crit, increases with luck
+    rand += p.getChar().getLck();
+    if (rand >= 90) return true;
+    else return false;
+  }
+  
+  public boolean playerDead(Player p){ //return true if player health is <= 0
+    if (p.getHp() <= 0){
+      System.out.println("\nYou died!\n");
+      return true;
+    }
+    else return false;
   }
 }

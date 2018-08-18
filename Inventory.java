@@ -38,12 +38,12 @@ public class Inventory implements java.io.Serializable{
       potionsUsed[potionIndex++] = x; //store which potion was used
       if (potionIndex > 4){ potionIndex = 4;}
       Item i = inv.get(x);
-      p.p1.setStr(p.p1.getStr() + i.getStr());
-      p.p1.setDef(p.p1.getDef() + i.getDef());
-      p.p1.setSpd(p.p1.getSpd() + i.getSpd());
-      p.p1.setMag(p.p1.getMag() + i.getMag());
-      p.p1.setLck(p.p1.getLck() + i.getLck());
-      p.p1.setLck(p.p1.getLck() + i.getLck());
+      p.getChar().setStr(p.getChar().getStr() + i.getStr());
+      p.getChar().setDef(p.getChar().getDef() + i.getDef());
+      p.getChar().setSpd(p.getChar().getSpd() + i.getSpd());
+      p.getChar().setMag(p.getChar().getMag() + i.getMag());
+      p.getChar().setLck(p.getChar().getLck() + i.getLck());
+      p.getChar().setLck(p.getChar().getLck() + i.getLck());
       p.setHp(p.getHp() + i.getHp());
       if (p.getHp() > p.getMaxHp()){ p.setHp(p.getMaxHp());}
       inv.remove(i);
@@ -97,11 +97,11 @@ public class Inventory implements java.io.Serializable{
   
   public void itemUsed(int x){ //helper for removeBuffs
     Item i = usedInv.get(x);
-    p.p1.setStr(p.p1.getStr() - i.getStr());
-    p.p1.setDef(p.p1.getDef() - i.getDef());
-    p.p1.setSpd(p.p1.getSpd() - i.getSpd());
-    p.p1.setMag(p.p1.getMag() - i.getMag());
-    p.p1.setLck(p.p1.getLck() - i.getLck());
+    p.getChar().setStr(p.getChar().getStr() - i.getStr());
+    p.getChar().setDef(p.getChar().getDef() - i.getDef());
+    p.getChar().setSpd(p.getChar().getSpd() - i.getSpd());
+    p.getChar().setMag(p.getChar().getMag() - i.getMag());
+    p.getChar().setLck(p.getChar().getLck() - i.getLck());
     usedInv.remove(i);
   }
   

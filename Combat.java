@@ -21,6 +21,7 @@ public class Combat {
         Monster monster = new Monster("Skeleton", dungeonLvl);
         System.out.println("Initializing combat..");
         boolean potion = false; //if true, at end of combat remove potion buffs
+        boolean magicBuff = false; //if true, remove magic buffs at end of combat
         int choice;
         boolean inCombat = true;
         while (inCombat) {
@@ -32,15 +33,31 @@ public class Combat {
               if (attack(player, monster)) {
               inCombat = false;
             }
+              else {
+                //regen mana (subject to change)
+                player.setMana(player.getMana() + 2);
+                if (player.getMana() > player.getMaxMana()){
+                  player.setMana(player.getMaxMana());
+                }
+                // 
+              }
               break;
             case 2:
-              System.out.println("Magic not coded yet.");
+              int magic = player.getMagic().magicMenu();
+              if (magic == 12) {  //warrior's anger skill used, take away buff after combat
+                magicBuff = true; 
+              }
+              if (magic == 13) { //warrior's damage skill, deal damage
+                if (player.getMagic().magicDamage(player, monster, 20)){
+                  inCombat = false;
+                }
+              }
               break;
             case 3:
               potion = player.getInv().potionMenu(player);
               break;
             case 4:
-              if (player.p1.getSpd() > monster.getSpd()) { //if faster than monster, always escape
+              if (player.getChar().getSpd() > monster.getSpd()) { //if faster than monster, always escape
               System.out.println("You retreat!");
               inCombat = false;
             } 
@@ -66,6 +83,10 @@ public class Combat {
           player.getInv().removeBuffs();
           potion = false;
         }
+        if (magicBuff) {
+          player.getMagic().removeBuffs();
+          magicBuff = false;
+        }
       }
     }
   }
@@ -77,26 +98,42 @@ public class Combat {
     System.out.println("Initializing combat..");
     Random r = new Random();
     boolean potion = false; //if true, at end of combat remove potion buffs
+    boolean magicBuff = false; //if true, remove magic buffs at end of combat
     int choice;
     boolean inCombat = true;
     while (inCombat) {
-      System.out.println("\nCombat Options:\n1. Attack    2. Magic");
-      System.out.println("3. Potions   4. Flee\n5: Stats");
+      System.out.println("\nCombat Options:\n1. Attack\n2. Magic\n3. Potions\n4. Flee\n5: Stats\n");
       choice = sc.nextInt();
       switch (choice) {
         case 1:
           if (attack(p, boss)) {
           inCombat = false;
         }
+          else {
+            //regen mana (subject to change)
+            p.setMana(p.getMana() + 2);
+            if (p.getMana() > p.getMaxMana()){
+              p.setMana(p.getMaxMana());
+            }
+            // 
+          }
           break;
         case 2:
-          System.out.println("Magic not coded yet.");
+          int magic = p.getMagic().magicMenu();
+          if (magic == 12) {  //warrior's anger skill used, take away buff after combat
+            magicBuff = true; 
+          }
+          if (magic == 13) { //warrior's damage skill, deal damage
+            if (p.getMagic().magicDamage(p, boss, 20)){
+              inCombat = false;
+            }
+          }
           break;
         case 3:
           potion = p.getInv().potionMenu(p);
           break;
         case 4:
-          if (p.p1.getSpd() > boss.getSpd()) { //if faster than monster, always escape
+          if (p.getChar().getSpd() > boss.getSpd()) { //if faster than monster, always escape
           System.out.println("You retreat!");
           inCombat = false;
         } 
@@ -123,195 +160,67 @@ public class Combat {
       p.getInv().removeBuffs();
       potion = false;
     }
+    if (magicBuff) {
+      p.getMagic().removeBuffs();
+      magicBuff = false;
+    }
   }
   
   public boolean attack(Player player, Monster monster){
     if (monster.getHp() > 0){ //monster not dead
       //the one with more speed attacks first
-      boolean evadeP = evadeP(player); //booleans that will decide if player/monster will evade
-      boolean evadeM = evadeM(monster);
-      boolean critP = critP(player); //booleans for player/monster crit
-      boolean critM = critM(monster);
-      if (player.p1.getSpd() > monster.getSpd()) { //player first
+      boolean evadeP = player.evadeP(player); //booleans that will decide if player/monster will evade
+      boolean evadeM = monster.evadeM(monster);
+      boolean critP = player.critP(player); //booleans for player/monster crit
+      boolean critM = monster.critM(monster);
+      if (player.getChar().getSpd() > monster.getSpd()) { //player first
         if (evadeM) { System.out.println("The " + monster.getName() + " evades your attack!");}
         else {
-          int damage = player.p1.regAtk() - monster.getDef();
+          int damage = player.getChar().regAtk() - monster.getDef();
           if (critP){ damage += damage; System.out.println("Critical hit!");} //crit is 2 times damage multiplier for now
           monster.takeDmg(damage);
-          System.out.println("You dealt " + damage + " damage to enemy!");
-          if (monster.getHp() == 0) { return monsterDead(player, monster);}
-          System.out.println("The " + monster.getName() + " has " + monster.getHp() + " health left.");
+          System.out.println("You dealt " + damage + " damage to " + monster.getName() + " !");
+          if (monster.getHp() == 0) { return monster.monsterDead(player, monster);}
+          System.out.println(monster.getName() + " Health: " + monster.getHp());
         }
         System.out.println("\nEnemy Attacking!");
         if (evadeP) { System.out.println("You evade the attack!");}
         else {
-          int damage = monster.attack() - player.p1.getDef();
+          int damage = monster.attack() - player.getChar().getDef();
           if (critM){ damage += damage; System.out.println("Critical hit!");} //crit is 2 times damage multiplier for now
           if(damage < 0){ damage = 0;}
           player.takeDmg(damage);
           System.out.println("You took " + damage + " damage.");
-          if (playerDead(player)){ return true;}
-          System.out.println("Health remaining: "+ player.getHp());
+          if (player.playerDead(player)){ return true;}
+          System.out.println("Health: "+ player.getHp());
+          System.out.println("Mana: "+ player.getMana());
         }
       }
-      if (player.p1.getSpd() <= monster.getSpd()) { //monster first
+      if (player.getChar().getSpd() <= monster.getSpd()) { //monster first
         System.out.println("\nEnemy Attacking!");
         if (evadeP) { System.out.println("You evade the attack!");}
         else {
-          int damage = monster.attack() - player.p1.getDef();
+          int damage = monster.attack() - player.getChar().getDef();
           if (critM){ damage += damage; System.out.println("Critical hit!");} //crit is 2 times damage multiplier for now
           if(damage < 0){ damage = 0;}
           player.takeDmg(damage);
           System.out.println("You took " + damage + " damage.");
-          if (playerDead(player)){ return true;}
-          System.out.println("Health remaining: "+ player.getHp());
+          if (player.playerDead(player)){ return true;}
+          System.out.println("Health: "+ player.getHp());
+          System.out.println("Mana: "+ player.getMana());
         }
         
         if (evadeM) { System.out.println("The " + monster.getName() + " evades your attack!");}
         else {
-          int damage = player.p1.regAtk() - monster.getDef();
+          int damage = player.getChar().regAtk() - monster.getDef();
           if (critP){ damage += damage; System.out.println("Critical hit!");} //crit is 2 times damage multiplier for now
           monster.takeDmg(damage);
-          System.out.println("You dealt " + damage + " damage to enemy!");
-          if (monster.getHp() == 0) { return monsterDead(player, monster);}
-          System.out.println("The " + monster.getName() + " has " + monster.getHp() + " health left.");
+          System.out.println("You dealt " + damage + " damage to " + monster.getName() + " !");
+          if (monster.getHp() == 0) { return monster.monsterDead(player, monster);}
+          System.out.println(monster.getName() + " Health: " + monster.getHp());
         }
       }
     }
     return false;
-  }
-  
-  public boolean monsterDead(Player player, Monster monster){
-    Random r = new Random();
-    int randInt1 = r.nextInt(10) + 5; //exp
-    int randInt2 = r.nextInt(10) + 5; //gold
-    player.setGold(player.getGold() + randInt2);
-    System.out.println("\nEnemy Defeated! You gained " + randInt2 + " gold and " + randInt1 + " Exp!");
-    player.setExp(player.getExp() + randInt1);
-    player.checkExp();
-    int randInt = r.nextInt(100); //random # 0 - 99
-    randInt += player.p1.getLck();
-    if (randInt >= 70){ //30% chance to drop item (for now) + added chance with player's luck
-      Item i = new Item("Rusty Sword"); //making item first
-      i = i.itemDrop(); //item becomes randomized
-      System.out.println("\nThe " + monster.getName() + " dropped an item!");
-      if (i.getType().equals("potion")){
-        System.out.println("Do you wish to pick up " + i.getDesc() + "?");
-      }
-      else {
-        System.out.println("Do you wish to equip " + i.getDesc() + "?");
-      }
-      Scanner sc = new Scanner(System.in);
-      boolean decided = false;
-      while (!decided) {
-        System.out.println("1: Yes \n2: No");
-        if(!i.getType().equals("potion")){ System.out.println("3: Compare Item");}
-        int c = sc.nextInt();
-        switch(c) {
-          case 1: //if player already has item in corresponding slot, add it to inventory
-            if (i.getType().equals("potion")) { //if the dropped item is a potion, add to inventory
-            player.getInv().addItem(i);
-          }
-            if (player.getItem(i.getType()) != null) {
-              System.out.println("You already have " + player.getItem(i.getType()).getDesc() 
-                                   + " equipped, do you want to put " + i.getDesc() + " in your inventory?\n1. Yes\n2. No");
-              int c2 = sc.nextInt();
-              boolean decided2 = false;
-              while (decided2 == false) {
-                switch(c2) {
-                  case 1:
-                    player.getInv().addItem(i);
-                    System.out.println(i.getDesc() + " was put in your inventory.");
-                    decided2 = true;
-                    break;
-                  case 2:
-                    System.out.println("You leave the " + i.getDesc() + " behind.");
-                    decided2 = true;
-                    break;
-                  default:
-                    System.out.println("Invalid input.");
-                    break;
-                }
-              }
-            }
-            else {
-              player.equip(i);
-              System.out.println("You equipped the " + i.getDesc() + ".");
-            }
-            decided=true;
-            break;
-          case 2:
-            System.out.println("Do you want to put the " + i.getDesc() + " into your inventory?");
-            System.out.println("1: Yes \n2: No");
-            int c3 = sc.nextInt();
-            boolean decided2 = false;
-            while (decided2 == false) {
-              switch(c3) {
-                case 1:
-                  player.getInv().addItem(i);
-                  System.out.println(i.getDesc() + " was put in your inventory.");
-                  decided2 = true;
-                  break;
-                case 2:
-                  System.out.println("You leave the " + i.getDesc() + " behind.");
-                  decided2 = true;
-                  break;
-                default:
-                  System.out.println("Invalid input.");
-                  break;
-              }
-            }
-            decided=true;
-            break;
-          case 3:
-            player.compareItem(i);
-            break;
-          default:
-            System.out.println("Invalid input.");
-            break;
-        }
-      }
-    }
-    return true;
-  }
-  
-  public boolean evadeP(Player player){
-    Random r = new Random();
-    int rand = r.nextInt(100); //0-99
-    rand += player.p1.getSpd();
-    if (rand >= 90) return true; //initial 10% chance to evade, increases with speed
-    else return false;
-  }
-  
-  public boolean evadeM(Monster monster){
-    Random r = new Random();
-    int rand = r.nextInt(100); //0-99
-    rand += monster.getSpd();
-    if (rand >= 95) return true; //initial 5% chance to evade, increases with speed
-    else return false;
-  }
-  
-  public boolean critP(Player p){
-    Random r = new Random();
-    int rand = r.nextInt(100); //initial 10% chance to crit, increases with luck
-    rand += p.p1.getLck();
-    if (rand >= 90) return true;
-    else return false;
-  }
-  
-  public boolean critM(Monster m){
-    Random r = new Random();
-    int rand = r.nextInt(100); //initial 10% chance to crit, increases with luck
-    rand += m.getLck();
-    if (rand >= 90) return true;
-    else return false;
-  }
-  
-  public boolean playerDead(Player p){ //return true if player health is <= 0
-    if (p.getHp() <= 0){
-      System.out.println("\nYou died!\n");
-      return true;
-    }
-    else return false;
   }
 }

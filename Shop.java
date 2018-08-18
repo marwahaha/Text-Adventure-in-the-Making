@@ -1,4 +1,3 @@
-import java.util.LinkedList;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Random;
@@ -65,48 +64,59 @@ public class Shop{
       System.out.println("You want to buy " + i.getDesc() + " for " + prices[index] + " gold?");
       System.out.println("1. Yes");
       System.out.println("2. No");
-      Scanner s = new Scanner(System.in);
-      boolean loop = true;
-      while (loop){
-        int choice = s.nextInt();
-        switch (choice) {
-          case 1:
-            System.out.println("Do you want to equip " + i.getDesc() + "?\n1. Yes \n2. No");
-            boolean loop2 = true;
-            while (loop2) {
-              int c = s.nextInt();
-              switch(c) {
-                case 1:
-                  p.setGold(p.getGold() - prices[index]); //subtract gold
-                  p.equip(i);
-                  System.out.println("You equipped " + i.getDesc() + ".\n");
-                  items[index] = null;
-                  prices[index] = 0;
-                  size--;
-                  loop2 = false;
-                  break;
-                case 2:
-                  p.setGold(p.getGold() - prices[index]); //subtract gold
-                  p.getInv().addItem(i); //add item
-                  System.out.println("You put " + i.getDesc() + " in your inventory.\n");
-                  //remove item from shop
-                  items[index] = null;
-                  prices[index] = 0;
-                  size--;
-                  loop2 = false;
-                  break;
-                default:
-                  System.out.println("Invalid choice.");
+      if (i.getType().equals("potion")){
+        p.setGold(p.getGold() - prices[index]); //subtract gold
+        p.getInv().addItem(i); //add item
+        System.out.println("You put " + i.getDesc() + " in your inventory.\n");
+        //remove item from shop
+        items[index] = null;
+        prices[index] = 0;
+        size--; 
+      }
+      else {
+        Scanner s = new Scanner(System.in);
+        boolean loop = true;
+        while (loop){
+          int choice = s.nextInt();
+          switch (choice) {
+            case 1:
+              System.out.println("Do you want to equip " + i.getDesc() + "?\n1. Yes \n2. No");
+              boolean loop2 = true;
+              while (loop2) {
+                int c = s.nextInt();
+                switch(c) {
+                  case 1:
+                    p.setGold(p.getGold() - prices[index]); //subtract gold
+                    p.equip(i);
+                    System.out.println("You equipped " + i.getDesc() + ".\n");
+                    items[index] = null;
+                    prices[index] = 0;
+                    size--;
+                    loop2 = false;
+                    break;
+                  case 2:
+                    p.setGold(p.getGold() - prices[index]); //subtract gold
+                    p.getInv().addItem(i); //add item
+                    System.out.println("You put " + i.getDesc() + " in your inventory.\n");
+                    //remove item from shop
+                    items[index] = null;
+                    prices[index] = 0;
+                    size--;
+                    loop2 = false;
+                    break;
+                  default:
+                    System.out.println("Invalid choice.");
+                }
               }
-            }
-            loop = false;
-            break;
-          case 2:
-            System.out.println("You chose to not buy the " + i.getDesc() + ".\n");
-            loop = false;
-            break;
-          default:
-            System.out.println("Invalid choice.");
+              loop = false;
+              break;
+            case 2:
+              System.out.println("You chose to not buy the " + i.getDesc() + ".\n");
+              loop = false;
+              break;
+            default:
+              System.out.println("Invalid choice.");
+          }
         }
       }
     }

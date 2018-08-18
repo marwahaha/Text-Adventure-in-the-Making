@@ -61,7 +61,7 @@ public class Item implements Serializable{
   public void getStats(){
     System.out.println("STR: "+getStr());
     System.out.println("DEF: "+getDef());
-    System.out.println("MAG: "+getMag());
+    System.out.println("WIS: "+getMag());
     System.out.println("SPD: "+getSpd());
     System.out.println("LCK: "+getLck());
     System.out.println("------------");

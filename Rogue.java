@@ -1,4 +1,5 @@
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Rogue implements Character, Serializable{
   
@@ -14,10 +15,6 @@ public class Rogue implements Character, Serializable{
     this.mag = 1;
   }
   
-  public int specialAtk() {
-    return str + spd;
-  }
-  
   public int regAtk(){
     return str;
   }
@@ -27,7 +24,7 @@ public class Rogue implements Character, Serializable{
   public int getMag(){ return this.mag; }
   public int getSpd() { return this.spd; }
   public int getLck(){ return this.lck; }
-  public String getgameClass() { return this.gameClass; }
+  public String getGameClass() { return this.gameClass; }
   public void setStr(int x) {this.str = x; }
   public void setDef(int x) {this.def = x; }
   public void setMag(int x) {this.mag = x; }
