@@ -51,36 +51,35 @@ public class Shop{
   
   public void buy(String item, int index, Player p) {
     if (items[index] == null) {
-      System.out.println("You already bought this item!\n");
+      System.out.println("\nYou already bought this item!\n");
     }
     else if (p.getInv().getSize() >= 5) {
-      System.out.println("Your bag is too full!");
+      System.out.println("\nYour bag is too full!");
     } 
     else if ((p.getGold() - prices[index]) < 0) {
-      System.out.println("You do not have enough gold to buy " + item + ".\n");
+      System.out.println("\nYou do not have enough gold to buy " + item + ".\n");
     } 
     else {
       Item i = new Item(item);
-      System.out.println("You want to buy " + i.getDesc() + " for " + prices[index] + " gold?");
-      System.out.println("1. Yes");
-      System.out.println("2. No");
-      if (i.getType().equals("potion")){
-        p.setGold(p.getGold() - prices[index]); //subtract gold
-        p.getInv().addItem(i); //add item
-        System.out.println("You put " + i.getDesc() + " in your inventory.\n");
-        //remove item from shop
-        items[index] = null;
-        prices[index] = 0;
-        size--; 
-      }
-      else {
-        Scanner s = new Scanner(System.in);
-        boolean loop = true;
-        while (loop){
-          int choice = s.nextInt();
-          switch (choice) {
-            case 1:
-              System.out.println("Do you want to equip " + i.getDesc() + "?\n1. Yes \n2. No");
+      System.out.println("\nYou want to buy " + i.getDesc() + " for " + prices[index] + " gold?");
+      System.out.println("1. Yes | 2. No");
+      Scanner s = new Scanner(System.in);
+      boolean loop = true;
+      while (loop){
+        int choice = s.nextInt();
+        switch (choice) {
+          case 1:
+            if (i.getType().equals("potion")){
+            p.setGold(p.getGold() - prices[index]); //subtract gold
+            p.getInv().addItem(i); //add item
+            System.out.println("\nYou put " + i.getDesc() + " in your inventory.\n");
+            //remove item from shop
+            items[index] = null;
+            prices[index] = 0;
+            size--; 
+          }
+            else {
+              System.out.println("\nDo you want to equip " + i.getDesc() + "?\n1. Yes | 2. No");
               boolean loop2 = true;
               while (loop2) {
                 int c = s.nextInt();
@@ -88,7 +87,7 @@ public class Shop{
                   case 1:
                     p.setGold(p.getGold() - prices[index]); //subtract gold
                     p.equip(i);
-                    System.out.println("You equipped " + i.getDesc() + ".\n");
+                    System.out.println("\nYou equipped " + i.getDesc() + ".\n");
                     items[index] = null;
                     prices[index] = 0;
                     size--;
@@ -97,7 +96,7 @@ public class Shop{
                   case 2:
                     p.setGold(p.getGold() - prices[index]); //subtract gold
                     p.getInv().addItem(i); //add item
-                    System.out.println("You put " + i.getDesc() + " in your inventory.\n");
+                    System.out.println("\nYou put " + i.getDesc() + " in your inventory.\n");
                     //remove item from shop
                     items[index] = null;
                     prices[index] = 0;
@@ -105,18 +104,18 @@ public class Shop{
                     loop2 = false;
                     break;
                   default:
-                    System.out.println("Invalid choice.");
+                    System.out.println("\nInvalid choice.");
                 }
               }
-              loop = false;
-              break;
-            case 2:
-              System.out.println("You chose to not buy the " + i.getDesc() + ".\n");
-              loop = false;
-              break;
-            default:
-              System.out.println("Invalid choice.");
-          }
+            }
+            loop = false;
+            break;
+          case 2:
+            System.out.println("\nYou chose to not buy the " + i.getDesc() + ".\n");
+            loop = false;
+            break;
+          default:
+            System.out.println("\nInvalid choice.");
         }
       }
     }
@@ -146,7 +145,7 @@ public class Shop{
           buy(items[4], 4, p);
           break;
         case 6:
-          System.out.println("You leave the shop.");
+          System.out.println("\nYou leave the shop.");
           loop = false;
           break;
         case 7:
@@ -158,7 +157,7 @@ public class Shop{
           System.out.println();
           break;
         default:
-          System.out.println("Invalid choice.");
+          System.out.println("\nInvalid choice.");
       }
     }
   }
@@ -171,9 +170,7 @@ public class Shop{
       if (items[i] == null) { System.out.println((i+1) + ". Sold!");}
       else { System.out.println((i+1) + ". Price: " + prices[i] + " | " + items[i]);}
     }
-    System.out.println("6. Leave Shop");
-    System.out.println("7. Sell");
-    System.out.println("8. Inventory");
+    System.out.println("6. Leave Shop | 7. Sell | 8. Inventory");
   }
   
   public void sellMenu(Player p){ //prints sell menu. sale prices are randomized
@@ -189,7 +186,7 @@ public class Shop{
           sell(p.getInv().getItem(0), p, yourPrices[0]);
         }
           else {
-            System.out.println("You have nothing to sell!\n");
+            System.out.println("\nYou have nothing to sell!");
           }
           break;
         case 2:
@@ -197,7 +194,7 @@ public class Shop{
           sell(p.getInv().getItem(1), p, yourPrices[1]);
         }
           else {
-            System.out.println("You have nothing to sell!\n");
+            System.out.println("\nYou have nothing to sell!");
           }
           break;
         case 3:
@@ -205,7 +202,7 @@ public class Shop{
           sell(p.getInv().getItem(2), p, yourPrices[2]);
         }
           else {
-            System.out.println("You have nothing to sell!\n");
+            System.out.println("\nYou have nothing to sell!");
           }
           break;
         case 4:
@@ -213,7 +210,7 @@ public class Shop{
           sell(p.getInv().getItem(3), p, yourPrices[3]);
         }
           else {
-            System.out.println("You have nothing to sell!\n");
+            System.out.println("\nYou have nothing to sell!");
           }
           break;
         case 5:
@@ -221,11 +218,11 @@ public class Shop{
           sell(p.getInv().getItem(4), p, yourPrices[4]);
         }
           else {
-            System.out.println("You have nothing to sell!\n");
+            System.out.println("\nYou have nothing to sell!");
           }
           break;
         case 6:
-          System.out.println("You leave the shop.");
+          System.out.println("\nYou leave the shop.");
           loop = false;
           break;
         case 7:
@@ -237,15 +234,14 @@ public class Shop{
           System.out.println();
           break;
         default:
-          System.out.println("Invalid choice.");
+          System.out.println("\nInvalid choice.");
       }
     }
   }
   
   public void sell(Item i, Player p, int price){
-    System.out.println("Do you want to sell your " + i.getDesc() + " for " + price + " gold?");
-    System.out.println("1. Yes");
-    System.out.println("2. No");
+    System.out.println("\nDo you want to sell your " + i.getDesc() + " for " + price + " gold?");
+    System.out.println("1. Yes | 2. No");
     Scanner s = new Scanner(System.in);
     int choice = s.nextInt();
     boolean loop = true;
@@ -254,15 +250,15 @@ public class Shop{
         case 1:
           p.getInv().removeItem(i);
           p.setGold(p.getGold() + price);
-          System.out.println("You sold " + i.getDesc() + " for " + price + " gold.\n");
+          System.out.println("\nYou sold " + i.getDesc() + " for " + price + " gold.");
           loop = false;
           break;
         case 2:
-          System.out.println("You chose not to sell " + i.getDesc() + ".");
+          System.out.println("\nYou chose not to sell " + i.getDesc() + ".");
           loop = false;
           break;
         default:
-          System.out.println("Invalid choice.");
+          System.out.println("\nInvalid choice.");
       }
     }
   }
@@ -284,13 +280,12 @@ public class Shop{
       System.out.println((i+1) + ". Empty.");
       i++;
     }
-    System.out.println("6. Leave Shop");
-    System.out.println("7. Buy");
-    System.out.println("8. Inventory");
+    System.out.println("6. Leave Shop | 7. Buy | 8. Inventory");
+    
   }
   
   public static void invMenu(Player player){
-    System.out.println("\n1. Equipment\n2. Inventory\n3. Back");
+    System.out.println("\n1. Equipment | 2. Inventory | 3. Back");
     Scanner s = new Scanner(System.in);
     int choice = s.nextInt();
     boolean loop = true;
@@ -309,7 +304,7 @@ public class Shop{
         loop = false;
         break;
       default:
-        System.out.println("Invalid choice.");
+        System.out.println("\nInvalid choice.");
     }
   }
 }

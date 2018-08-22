@@ -19,31 +19,31 @@ public class Monster{
         //skeleton & slime basic monsters
         if (name.equals("Skeleton")){
             this.name = name;
-            this.hp = 20 + (5*dungeonLvl);
-            this.str = 4 + (3*dungeonLvl);
-            this.def = 2 + (3*dungeonLvl);
-            this.spd = 1 + (3*dungeonLvl);
-            this.lck = 1 + (3*dungeonLvl);
+            this.hp = 20 + (4*dungeonLvl);
+            this.str = 4 + (2*dungeonLvl);
+            this.def = 2 + (2*dungeonLvl);
+            this.spd = 1 + (2*dungeonLvl);
+            this.lck = 1 + (2*dungeonLvl);
         }
         if (name.equals("Slime")){
             this.name = name;
-            this.hp = 20 + (3*dungeonLvl);
-            this.str = 2 + (3*dungeonLvl);
-            this.def = 4 + (3*dungeonLvl);
-            this.spd = 1 + (3*dungeonLvl);
-            this.lck = 1 + (3*dungeonLvl);
+            this.hp = 20 + (2*dungeonLvl);
+            this.str = 2 + (2*dungeonLvl);
+            this.def = 4 + (2*dungeonLvl);
+            this.spd = 1 + (2*dungeonLvl);
+            this.lck = 1 + (2*dungeonLvl);
         }
     }
     
     public Monster(String boss, int dungeonLvl, boolean isBoss){
       if (boss.equals("Skeleton King")) {
         this.boss = isBoss; //?? idk if this boolean is needed
-        this.name = name;
-        this.hp = 60 + (5*dungeonLvl);
-        this.str = 6 + (3*dungeonLvl);
-        this.def = 6 + (3*dungeonLvl);
-        this.spd = 5 + (3*dungeonLvl);
-        this.lck = 3 + (3*dungeonLvl);
+        this.name = boss;
+        this.hp = 60 + (4*dungeonLvl);
+        this.str = 6 + (2*dungeonLvl);
+        this.def = 6 + (2*dungeonLvl);
+        this.spd = 5 + (2*dungeonLvl);
+        this.lck = 3 + (2*dungeonLvl);
       }
     }
 
@@ -58,7 +58,7 @@ public class Monster{
     public boolean critM(Monster m){
       Random r = new Random();
       int rand = r.nextInt(100); //initial 10% chance to crit, increases with luck
-      rand += m.getLck();
+      rand += (m.getLck()*3);
       if (rand >= 90) return true;
       else return false;
     }
@@ -66,88 +66,101 @@ public class Monster{
     public boolean evadeM(Monster monster){
       Random r = new Random();
       int rand = r.nextInt(100); //0-99
-      rand += monster.getSpd();
+      rand += (monster.getSpd()*3);
       if (rand >= 95) return true; //initial 5% chance to evade, increases with speed
       else return false;
     }
     
-      public boolean monsterDead(Player player, Monster monster){
+    public boolean monsterDead(Player player, Monster monster){
     Random r = new Random();
     int randInt1 = r.nextInt(10) + 5; //exp
     int randInt2 = r.nextInt(10) + 5; //gold
     player.setGold(player.getGold() + randInt2);
-    System.out.println("\nEnemy Defeated! You gained " + randInt2 + " gold and " + randInt1 + " Exp!");
+    System.out.println("\n" + monster.getName() + " defeated! You gained " + randInt2 + " gold and " + randInt1 + " Exp.");
     player.setExp(player.getExp() + randInt1);
     player.checkExp();
     int randInt = r.nextInt(100); //random # 0 - 99
-    randInt += player.getChar().getLck();
+    randInt += (player.getChar().getLck()*10);
     if (randInt >= 70){ //30% chance to drop item (for now) + added chance with player's luck
       Item i = new Item("Rusty Sword"); //making item first
       i = i.itemDrop(); //item becomes randomized
-      System.out.println("\nThe " + monster.getName() + " dropped an item!");
-      if (i.getType().equals("potion")){
-        System.out.println("Do you wish to pick up " + i.getDesc() + "?");
-      }
-      else {
-        System.out.println("Do you wish to equip " + i.getDesc() + "?");
-      }
+      System.out.println("\nThe " + monster.getName() + " dropped an item!\n");
       Scanner sc = new Scanner(System.in);
       boolean decided = false;
       while (!decided) {
-        System.out.println("1: Yes \n2: No");
-        if(!i.getType().equals("potion")){ System.out.println("3: Compare Item");}
+        if (i.getType().equals("potion")){
+          System.out.println("Do you wish to pick up " + i.getDesc() + "?");
+          System.out.println("1: Yes | 2: No");
+        }
+        else {
+          System.out.println("Do you wish to equip " + i.getDesc() + "?");
+          System.out.println("1. Yes | 2. No | 3: Compare");
+        }
         int c = sc.nextInt();
         switch(c) {
           case 1: //if player already has item in corresponding slot, add it to inventory
             if (i.getType().equals("potion")) { //if the dropped item is a potion, add to inventory
             player.getInv().addItem(i);
+            System.out.println("\n" + i.getDesc() + " was put in your inventory.");
           }
-            if (player.getItem(i.getType()) != null) {
-              System.out.println("You already have " + player.getItem(i.getType()).getDesc() 
-                                   + " equipped, do you want to put " + i.getDesc() + " in your inventory?\n1. Yes\n2. No");
-              int c2 = sc.nextInt();
-              boolean decided2 = false;
-              while (decided2 == false) {
-                switch(c2) {
-                  case 1:
-                    player.getInv().addItem(i);
-                    System.out.println(i.getDesc() + " was put in your inventory.");
-                    decided2 = true;
-                    break;
-                  case 2:
-                    System.out.println("You leave the " + i.getDesc() + " behind.");
-                    decided2 = true;
-                    break;
-                  default:
-                    System.out.println("Invalid input.");
-                    break;
+            else {
+              if (player.getItem(i.getType()) != null) {
+                System.out.println("\nYou already have " + player.getItem(i.getType()).getDesc() 
+                                     + " equipped, do you want to put " + i.getDesc() + " in your inventory?\n1. Yes | 2. No");
+                int c2 = sc.nextInt();
+                boolean decided2 = false;
+                while (decided2 == false) {
+                  switch(c2) {
+                    case 1:
+                      if (player.getInv().isFull()) {
+                      System.out.println("\nInventory full!\nYou leave the " + i.getDesc() + " behind.");
+                    }
+                      else {
+                      player.getInv().addItem(i);
+                      System.out.println("\n" + i.getDesc() + " was put in your inventory.");
+                      }
+                      decided2 = true;
+                      break;
+                    case 2:
+                      System.out.println("\nYou leave the " + i.getDesc() + " behind.");
+                      decided2 = true;
+                      break;
+                    default:
+                      System.out.println("\nInvalid input.");
+                  }
                 }
               }
-            }
-            else {
-              player.equip(i);
-              System.out.println("You equipped the " + i.getDesc() + ".");
+              else {
+                player.equip(i);
+                System.out.println("\nYou equipped the " + i.getDesc() + ".");
+
+              }
             }
             decided=true;
             break;
           case 2:
-            System.out.println("Do you want to put the " + i.getDesc() + " into your inventory?");
-            System.out.println("1: Yes \n2: No");
+            System.out.println("\nDo you want to put the " + i.getDesc() + " into your inventory?");
+            System.out.println("1: Yes | 2: No");
             int c3 = sc.nextInt();
             boolean decided2 = false;
             while (decided2 == false) {
               switch(c3) {
                 case 1:
                   player.getInv().addItem(i);
-                  System.out.println(i.getDesc() + " was put in your inventory.");
+                  if (player.getInv().isFull()) {
+                    System.out.println("\nYou leave the " + i.getDesc() + " behind.");
+                  }
+                  else {
+                    System.out.println("\n" + i.getDesc() + " was put in your inventory.");
+                  }
                   decided2 = true;
                   break;
                 case 2:
-                  System.out.println("You leave the " + i.getDesc() + " behind.");
+                  System.out.println("\nYou leave the " + i.getDesc() + " behind.");
                   decided2 = true;
                   break;
                 default:
-                  System.out.println("Invalid input.");
+                  System.out.println("\nInvalid input.");
                   break;
               }
             }
@@ -157,7 +170,7 @@ public class Monster{
             player.compareItem(i);
             break;
           default:
-            System.out.println("Invalid input.");
+            System.out.println("\nInvalid input.");
             break;
         }
       }

@@ -59,12 +59,7 @@ public class Item implements Serializable{
   }
   
   public void getStats(){
-    System.out.println("STR: "+getStr());
-    System.out.println("DEF: "+getDef());
-    System.out.println("WIS: "+getMag());
-    System.out.println("SPD: "+getSpd());
-    System.out.println("LCK: "+getLck());
-    System.out.println("------------");
+    System.out.println("STR: "+getStr() + " | DEF: " + getDef() + " | WIS: " + getMag() + " | SPD: "+getSpd() + " | LCK: "+getLck());
   }
   
   public int getHp(){ return this.hp;}

@@ -34,15 +34,15 @@ public class Magic implements Serializable{
   public void learn(int skillNum){
     if (p.getGameClass().equals("Warrior")){
       pSkills[skillNum] = warSkills[skillNum];
-      System.out.println("You learned the skill " + warSkills[skillNum] + " !\n");
+      System.out.println("You learned the skill " + warSkills[skillNum] + "!");
     }
     else if (p.getGameClass().equals("Rogue")){
       pSkills[skillNum] = rogSkills[skillNum];
-      System.out.println("You learned the skill " + rogSkills[skillNum] + " !\n");
+      System.out.println("You learned the skill " + rogSkills[skillNum] + "!");
     }
     else if (p.getGameClass().equals("Mage")){
       pSkills[skillNum] = wizSkills[skillNum];
-      System.out.println("You learned the skill " + wizSkills[skillNum] + " !\n");
+      System.out.println("You learned the skill " + wizSkills[skillNum] + "!");
     }
   }
   
@@ -55,15 +55,14 @@ public class Magic implements Serializable{
         return -11;
       }
       else {
-        p.setHp(p.getHp() + 20); //heal 20 hp
+        p.setHp(p.getHp() + 10); //heal 10 hp
         if (p.getHp() > p.getMaxHp()) {
           p.setHp(p.getMaxHp());
         }
         p.setMana(p.getMana() -15); 
         return 11;
       }
-    }
-    
+    } 
     else if (skill.equals("Anger")) {
       if (p.getMana() - 20 < 0) {
         System.out.println("Not enough mana!");
@@ -75,10 +74,9 @@ public class Magic implements Serializable{
         //remove buff after combat somehow
         return 12;
       }
-    }
-    
+    }    
     else if (skill.equals("Dominating Blow")) {
-      //deal 20? damage
+      //deal 30? damage
       if (p.getMana() - 25 < 0) {
         System.out.println("Not enough mana!");
         return -13;
@@ -89,27 +87,96 @@ public class Magic implements Serializable{
         return 13;
       }
     }
+    if (skill.equals("Bandage")) {
+      if (p.getMana() - 10 < 0) {
+        System.out.println("Not enough mana!");
+        return -21;
+      }
+      else {
+        p.setHp(p.getHp() + 10); //heal 10 hp
+        if (p.getHp() > p.getMaxHp()) {
+          p.setHp(p.getMaxHp());
+        }
+        p.setMana(p.getMana() - 10); 
+        return 21;
+      }
+    } 
+    else if (skill.equals("Quicken")) {
+      if (p.getMana() - 20 < 0) {
+        System.out.println("Not enough mana!");
+        return -22;
+      }
+      else {
+        p.getChar().setSpd(p.getChar().getSpd() + 20); //gain 20 spd? for combat
+        p.setMana(p.getMana() - 20); 
+        //remove buff after combat somehow
+        return 22;
+      }
+    }
+    else if (skill.equals("Backstab")) {
+      //deal 35? damage
+      if (p.getMana() - 25 < 0) {
+        System.out.println("Not enough mana!");
+        return -23;
+      }
+      else {
+        p.setMana(p.getMana() - 25); 
+        return 23;
+      }
+    }
+    if (skill.equals("Energy Shield")) {
+      if (p.getMana() - 15 < 0) {
+        System.out.println("Not enough mana!");
+        return -31;
+      }
+      else {    
+        p.getChar().setDef(p.getChar().getDef() + 3);
+        return 31;
+      }
+    } 
+    else if (skill.equals("Fireball")) {
+      //deal 20? damage
+      if (p.getMana() - 20 < 0) {
+        System.out.println("Not enough mana!");
+        return -32;
+      }
+      else {
+        p.setMana(p.getMana() - 25); 
+        return 32;
+      }
+    }
+    else if (skill.equals("Lightning Strike")) {
+      //deal 40? damage
+      if (p.getMana() - 30 < 0) {
+        System.out.println("Not enough mana!");
+        return -33;
+      }
+      else {
+        p.setMana(p.getMana() - 30); 
+        return 33;
+      }
+    }
     return -1;
   }
   
   public void removeBuffs(){
     if (p.getGameClass().equals("Warrior")){
-      //remove anger buff since its the only buff a warrior has via magic
+      //remove anger buff since its the only buff a warrior has
       p.getChar().setStr(p.getChar().getStr() - 3);
     }
-    else if (p.getGameClass().equals("Rogue")){
-      
+    else if (p.getGameClass().equals("Rogue")){ //remove quicken buff
+      p.getChar().setSpd(p.getChar().getSpd() - 20);
     }
-   else if (p.getGameClass().equals("Mage")){
-      
-   }
+    else if (p.getGameClass().equals("Mage")){ //remove energy shield
+      p.getChar().setDef(p.getChar().getDef() - 3);
+    }
   }
   
   public int magicMenu(){
     boolean loop = true;
     Scanner s = new Scanner(System.in);
     while (loop){
-      System.out.println("Magic:");
+      System.out.println("\nMagic:");
       if (pSkills[0] != null) {System.out.println("1. " + pSkills[0]);}
       else { System.out.println("1. Not Learned");}
       if (pSkills[1] != null) {System.out.println("2. " + pSkills[1]);}
@@ -200,7 +267,7 @@ public class Magic implements Serializable{
         dmg += dmg;
         m.takeDmg(dmg);
       } 
-          System.out.println("You dealt " + damage + " damage to " + m.getName() + " !");
+      System.out.println("You dealt " + damage + " damage to " + m.getName() + " !");
       if (m.getHp() == 0) { return m.monsterDead(p, m);}
       System.out.println(m.getName() + " Health: " + m.getHp());
     }

@@ -25,13 +25,18 @@ public class Inventory implements java.io.Serializable{
       inv.add(curSize++, i);
     }
     else {
-      System.out.println("Inventory full!");
+      System.out.println("\nInventory full!");
     }
+  }
+  
+  public boolean isFull(){
+    if (curSize == 5) return true;
+    else return false;
   }
   
   public boolean useItem(int x){ 
     if (x >= curSize) {
-      System.out.println("There is no item to use!");
+      System.out.println("\nThere is no item to use!");
       return false;
     }
     else if (getItem(x).getType().equals("potion")) { //item is potion
@@ -52,7 +57,7 @@ public class Inventory implements java.io.Serializable{
     }
     else { //item is equipment
       Scanner s = new Scanner(System.in);
-      System.out.println("Do you want to equip " + getItem(x).getDesc() + "?");
+      System.out.println("\nDo you want to equip " + getItem(x).getDesc() + "?");
       System.out.println("1: Yes\n2: No");
       boolean decided = false;
       while (decided == false){
@@ -61,24 +66,25 @@ public class Inventory implements java.io.Serializable{
           case 1:
             if (p.getItem(getItem(x).getType()) == null) {
             p.equip(getItem(x));
-            System.out.println("You equipped " + getItem(x).getDesc() + ".");
+            System.out.println("\nYou equipped " + getItem(x).getDesc() + ".");
           }
             else {
               Item replaced = p.getItem(getItem(x).getType());
               p.unequip(getItem(x).getType());
+              System.out.println("\nYou equipped " + getItem(x).getDesc() + " and put " + replaced.getDesc() + " in your inventory."); 
               p.equip(getItem(x));
               removeItem(getItem(x));
               addItem(replaced);
-              System.out.println("You equipped " + getItem(x).getDesc() + " and put " + replaced.getDesc() + " in your inventory."); 
+              //System.out.println("\nYou equipped " + getItem(x).getDesc() + " and put " + replaced.getDesc() + " in your inventory."); 
             }
             decided = true;
             break;
           case 2:
-            System.out.println("You leave the " + getItem(x).getDesc() + "in your inventory.");  
+            System.out.println("\nYou leave the " + getItem(x).getDesc() + "in your inventory.");  
             decided = true;
             break;
           default:
-            System.out.println("Invalid choice.");
+            System.out.println("\nInvalid choice.");
             break;
         }
       }
@@ -158,7 +164,7 @@ public class Inventory implements java.io.Serializable{
           loop = false;
           break;
         default:
-          System.out.println("Invalid choice.");
+          System.out.println("\nInvalid choice.");
       }
     }
     return ret;

@@ -34,14 +34,12 @@ public class Player implements java.io.Serializable{
     int choice;
     boolean loop = true;
     while (loop) {
-      System.out.println("\nChoose your class:");
-      System.out.println("1. Warrior");
-      System.out.println("2. Rogue");
-      System.out.println("3. Mage");
+      System.out.println("\nClass Selection:");
+      System.out.println("1. Warrior | 2. Rogue | 3. Mage");
       choice = sc2.nextInt();
       switch(choice){
         case 1:
-          System.out.println("Welcome, Warrior.");
+          System.out.println("\nWelcome, Warrior.");
           p1 = new Warrior();
           p1.createChar();
           Item i = new Item("Rusty Sword");
@@ -51,7 +49,7 @@ public class Player implements java.io.Serializable{
           loop = false;
           break;
         case 2:
-          System.out.println("Welcome, Rogue.");
+          System.out.println("\nWelcome, Rogue.");
           this.maxHp = hp = 40;
           p1 = new Rogue();
           p1.createChar();
@@ -61,7 +59,7 @@ public class Player implements java.io.Serializable{
           loop = false;
           break;
         case 3:
-          System.out.println("Welcome, Mage.");
+          System.out.println("\nWelcome, Mage.");
           this.maxHp = hp = 35;
           p1 = new Mage();
           p1.createChar();
@@ -71,7 +69,7 @@ public class Player implements java.io.Serializable{
           loop = false;
           break;
         default:
-          System.out.println("Invalid Choice");
+          System.out.println("Invalid choice.");
       }
     }
   }
@@ -79,7 +77,8 @@ public class Player implements java.io.Serializable{
   public void showStats(){
     System.out.println("\nHP: " + hp + "/" + maxHp +
                        " | MP: " + mana + "/" + maxMana +
-                       " | EXP: " + exp + "/" + maxExp +
+                       " | Lvl: " + lvl +
+                       " | Exp: " + exp + "/" + maxExp +
                        " | Gold: " + gold);
     System.out.println("STR: " + p1.getStr() + " | " + 
                        "DEF: " + p1.getDef() + " | " + 
@@ -99,12 +98,12 @@ public class Player implements java.io.Serializable{
   }
   
   public void levelUp(){
-    System.out.println("LEVEL UP!");
-    this.maxHp += 10;
+    System.out.println("\nLEVEL UP!");
+    this.maxHp += 8;
     this.hp = maxHp;
-    this.maxMana += 1;
+    this.maxMana += 2;
     this.mana = maxMana;
-    this.maxExp += 10;
+    this.maxExp += 8;
     this.exp = 0;
     Scanner sc3 = new Scanner(System.in);
     int points = 3;
@@ -113,48 +112,44 @@ public class Player implements java.io.Serializable{
     while (points > 0) {
       System.out.println("You have " + points + " stat points to allocate!");
       System.out.println("Choose stat to allocate: ");
-      System.out.println("1. STR");
-      System.out.println("2. DEF");
-      System.out.println("3. SPD");
-      System.out.println("4. WIS");
-      System.out.println("5. LCK");
+      System.out.println("1. STR | 2. DEF | 3. SPD | 4. WIS | 5.LCK");
       choice = sc3.nextInt();
       switch(choice){
         case 1:
-          System.out.println("How many points do you want to allocate to Strength?");
+          System.out.println("\nHow many points do you want to allocate to Strength?");
           allocate = sc3.nextInt();
           if (points - allocate < 0) {
-            System.out.println("You can allocate only " + points + " point(s).");
+            System.out.println("\nYou can allocate only " + points + " point(s).");
             break;
           }
           points -= allocate;
           p1.setStr(p1.getStr()+allocate);
           break;
         case 2:
-          System.out.println("How many points do you want to allocate to Defense?");
+          System.out.println("\nHow many points do you want to allocate to Defense?");
           allocate = sc3.nextInt();
           if (points - allocate < 0) {
-            System.out.println("You can allocate only " + points + " point(s).");
+            System.out.println("\nYou can allocate only " + points + " point(s).");
             break;
           }
           points -= allocate;
           p1.setDef(p1.getDef()+allocate);
           break;
         case 3:
-          System.out.println("How many points do you want to allocate to Speed?");
+          System.out.println("\nHow many points do you want to allocate to Speed?");
           allocate = sc3.nextInt();
           if (points - allocate < 0) {
-            System.out.println("You can allocate only " + points + " point(s).");
+            System.out.println("\nYou can allocate only " + points + " point(s).");
             break;
           }
           points -= allocate;
           p1.setSpd(p1.getSpd()+allocate);
           break;
         case 4:
-          System.out.println("How many points do you want to allocate to Magic?");
+          System.out.println("\nHow many points do you want to allocate to Magic?");
           allocate = sc3.nextInt();
           if (points - allocate < 0) {
-            System.out.println("You can allocate only " + points + " point(s).");
+            System.out.println("\nYou can allocate only " + points + " point(s).");
             break;
           }
           points -= allocate;
@@ -163,30 +158,30 @@ public class Player implements java.io.Serializable{
           this.mana = maxMana;
           break;
         case 5:
-          System.out.println("How many points do you want to allocate to Luck?");
+          System.out.println("\nHow many points do you want to allocate to Luck?");
           allocate = sc3.nextInt();
           if (points - allocate < 0) {
-            System.out.println("You can allocate only " + points + " point(s).");
+            System.out.println("\nYou can allocate only " + points + " point(s).");
             break;
           }
           points -= allocate;
           p1.setLck(p1.getLck()+allocate);
           break;
         default:
-          System.out.println("Invalid Choice");
+          System.out.println("\nInvalid choice.");
           break;
       }
     }
     this.lvl++;
-    System.out.println("You are now Level " + lvl + "!");
+    System.out.println("\nYou are now Level " + lvl + "!");
     // learn new magic skill on level 3, 5, 7 (?)
-    if (lvl == 3) {
+    if (lvl == 2) {
       magic.learn(0);
     }
-    else if (lvl == 5) {
+    else if (lvl == 3) {
       magic.learn(1);
     }
-    else if (lvl == 7) {
+    else if (lvl == 4) {
       magic.learn(2);
     }
   }
@@ -233,11 +228,12 @@ public class Player implements java.io.Serializable{
   public void compareItem(Item item) {
     String itemType = item.getType();
     Item equippedItem = getItem(itemType);
-    System.out.println("Equipped:");
+    System.out.println("\nEquipped:");
     if (equippedItem!=null){ equippedItem.getStats();}
-    else { System.out.println("------------\nEmpty\n------------"); }
+    else { System.out.println("Empty\n"); }
     System.out.println("Dropped:");
     item.getStats();
+    System.out.println();
   }
   
   public Inventory getInv(){ return this.inv;}
@@ -280,7 +276,7 @@ public class Player implements java.io.Serializable{
   public boolean evadeP(Player player){
     Random r = new Random();
     int rand = r.nextInt(100); //0-99
-    rand += p1.getSpd();
+    rand += (p1.getSpd()*3);
     if (rand >= 90) return true; //initial 10% chance to evade, increases with speed
     else return false;
   }
@@ -288,15 +284,15 @@ public class Player implements java.io.Serializable{
   public boolean critP(Player p){
     Random r = new Random();
     int rand = r.nextInt(100); //initial 10% chance to crit, increases with luck
-    rand += p.getChar().getLck();
+    rand += (p.getChar().getLck()*3);
     if (rand >= 90) return true;
     else return false;
   }
   
   public boolean playerDead(Player p){ //return true if player health is <= 0
     if (p.getHp() <= 0){
-      System.out.println("\nYou died!\n");
-      return true;
+      System.out.println("\n--------\nYOU DIED\n--------");
+      return true;               
     }
     else return false;
   }
