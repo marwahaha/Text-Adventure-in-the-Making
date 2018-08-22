@@ -21,3 +21,6 @@ ______ Updates of Recent Changes ______
    -able to choose to equip item or put it in inventory on item drop or shop purchase
 16) Magic system added (warrior only currently), bugs very likely, code looks jank
    -Wizard class renamed to Mage
+17) Magic skills added to mage and rogue, damage skills do not work yet 
+   -Updated most of games text to look better and take up less space
+   -Bugs are still abundand
