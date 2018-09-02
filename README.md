@@ -24,3 +24,5 @@ ______ Updates of Recent Changes ______
 17) Magic skills added to mage and rogue, damage skills do not work yet 
    -Updated most of games text to look better and take up less space
    -Bugs are still abundand
+18) Magic skills now work correctly
+   -Rogue and Wizard need early game balancing
