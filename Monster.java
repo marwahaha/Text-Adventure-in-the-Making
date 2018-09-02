@@ -76,7 +76,7 @@ public class Monster{
     int randInt1 = r.nextInt(10) + 5; //exp
     int randInt2 = r.nextInt(10) + 5; //gold
     player.setGold(player.getGold() + randInt2);
-    System.out.println("\n" + monster.getName() + " defeated! You gained " + randInt2 + " gold and " + randInt1 + " Exp.");
+    System.out.println("\n" + monster.getName() + " defeated! You gain " + randInt2 + " gold and " + randInt1 + " Exp.");
     player.setExp(player.getExp() + randInt1);
     player.checkExp();
     int randInt = r.nextInt(100); //random # 0 - 99

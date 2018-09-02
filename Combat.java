@@ -26,7 +26,6 @@ public class Combat {
         boolean inCombat = true;
         while (inCombat) {
           System.out.println("\nCombat Options:\n1. Attack | 2. Magic | 3. Inventory | 4. Retreat | 5. Stats");
-          //System.out.println("3. Potions   4. Flee\n5: Stats");
           choice = sc.nextInt();
           switch (choice) {
             case 1:
@@ -40,7 +39,6 @@ public class Combat {
                 if (player.getMana() > player.getMaxMana()){
                   player.setMana(player.getMaxMana());
                 }
-                // 
               }
               break;
             case 2:
@@ -48,10 +46,10 @@ public class Combat {
               if (magic == 12) {  //warrior's buff skill used, take away buff after combat
                 magicBuff = true; 
               }
-              if (magic == 13) { //warrior's damage skill, deal damage
+              if (magic == 13) { //warrior's damage skill, deal damage.
                 if (player.getMagic().magicDamage(player, monster, 30)){
                   inCombat = false;
-                }
+                }     
               }
               if (magic == 22) { //rogue's buff skill, deal damage
                 magicBuff = true;
@@ -59,7 +57,7 @@ public class Combat {
               if (magic == 23) { //rogue's damage skill, deal damage
                 if (player.getMagic().magicDamage(player, monster, 35)){
                   inCombat = false;
-                }
+                }      
               }
               if (magic == 31) { //mage's buff skill, deal damage
                 magicBuff = true;
@@ -67,12 +65,12 @@ public class Combat {
               if (magic == 32) { //mage's damage skill, deal damage
                 if (player.getMagic().magicDamage(player, monster, 20)){
                   inCombat = false;
-                }
+                }                 
               }
               if (magic == 33) { //mage's damage skill, deal damage
                 if (player.getMagic().magicDamage(player, monster, 40)){
                   inCombat = false;
-                }
+                }     
               }
               break;
             case 3:
@@ -132,12 +130,12 @@ public class Combat {
           inCombat = false;
         }
           else {
-            //regen mana (subject to change)
-            p.setMana(p.getMana() + 2);
+           //regen 10% of mana each turn (subject to change)
+            int regen = p.getMana()/10;
+            p.setMana(p.getMana() + regen);
             if (p.getMana() > p.getMaxMana()){
               p.setMana(p.getMaxMana());
             }
-            // 
           }
           break;
         case 2:

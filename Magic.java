@@ -12,7 +12,7 @@ public class Magic implements Serializable{
   private String[] warSkills = {
     "Regenerate", //heal 
     "Anger", //raise str
-    "Devastating Blow"}; //stronk hit
+    "Dominating Blow"}; //stronk hit
   
   //rogue skills
   private String[] rogSkills = {
@@ -60,6 +60,7 @@ public class Magic implements Serializable{
           p.setHp(p.getMaxHp());
         }
         p.setMana(p.getMana() -15); 
+        System.out.println("\nYou regenerate 10 health.");
         return 11;
       }
     } 
@@ -72,6 +73,7 @@ public class Magic implements Serializable{
         p.getChar().setStr(p.getChar().getStr() + 3); //gain 3 str for combat
         p.setMana(p.getMana() - 20); 
         //remove buff after combat somehow
+        System.out.println("\nYour anger makes you stronger.");
         return 12;
       }
     }    
@@ -98,6 +100,7 @@ public class Magic implements Serializable{
           p.setHp(p.getMaxHp());
         }
         p.setMana(p.getMana() - 10); 
+        System.out.println("\nYou heal 10 health.");
         return 21;
       }
     } 
@@ -110,6 +113,7 @@ public class Magic implements Serializable{
         p.getChar().setSpd(p.getChar().getSpd() + 20); //gain 20 spd? for combat
         p.setMana(p.getMana() - 20); 
         //remove buff after combat somehow
+        System.out.println("\nYou become more agile.");
         return 22;
       }
     }
@@ -131,6 +135,7 @@ public class Magic implements Serializable{
       }
       else {    
         p.getChar().setDef(p.getChar().getDef() + 3);
+        System.out.println("\nYou are protected by a ward.");
         return 31;
       }
     } 
@@ -228,48 +233,59 @@ public class Magic implements Serializable{
     boolean critP = p.critP(p); //booleans for p/m crit
     boolean critM = m.critM(m);
     int dmg = damage;
-    if (p.getChar().getSpd() > p.getChar().getSpd()) { //p first
+    if (p.getChar().getSpd() > m.getSpd()) { //p first
       if (critP){ 
-        System.out.println("Critical hit!"); //crit is 2 times damage multiplier for now
+        System.out.println("\nCritical hit!"); //crit is 2 times damage multiplier for now
+        System.out.println("You deal " + dmg + " damage to " + m.getName() + "!");
         dmg += dmg;
         m.takeDmg(dmg);
       }
-      System.out.println("You dealt " + damage + " damage to " + m.getName() + " !");
+      else {
+        m.takeDmg(dmg);
+        System.out.println("\nYou deal " + dmg + " damage to " + m.getName() + "!");
+      }
       if (m.getHp() == 0) { return m.monsterDead(p, m);}
-      System.out.println(m.getName() + " Health: " + m.getHp());
-      System.out.println("\nEnemy Attacking!");
+      else {
+        System.out.println(m.getName() + " Health: " + m.getHp());
+      }
+      System.out.println("\n" + m.getName() + " attacking!");
       if (evadeP) { System.out.println("You evade the attack!");}
       else {
         int damageM = m.attack() - p.getChar().getDef();
         if (critM){ damageM += damageM; System.out.println("Critical hit!");} //crit is 2 times damage multiplier for now
         if(damageM < 0){ damageM = 0;}
         p.takeDmg(damageM);
-        System.out.println("You took " + damageM + " damage.");
+        System.out.println("You take " + damageM + " damage.");
         if (p.playerDead(p)){ return true;}
         System.out.println("Health: "+ p.getHp());
         System.out.println("Mana: "+ p.getMana());
       }
     }
     if (p.getChar().getSpd() <= m.getSpd()) { //m first
-      System.out.println("\nEnemy Attacking!");
+      System.out.println("\n" + m.getName() + " attacking!");
       if (evadeP) { System.out.println("You evade the attack!");}
       else {
         int damageM = m.attack() - p.getChar().getDef();
         if (critM){ damageM += damageM; System.out.println("Critical hit!");} //crit is 2 times damage multiplier for now
         if(damageM < 0){ damageM = 0;}
         p.takeDmg(damageM);
-        System.out.println("You took " + damageM + " damage.");
+        System.out.println("You take " + damageM + " damage.");
         if (p.playerDead(p)){ return true;}
         System.out.println("Health: "+ p.getHp());
         System.out.println("Mana: "+ p.getMana());
       }
-      if (critP){ System.out.println("Critical hit!");
+      if (critP){ System.out.println("\nCritical hit!");
         dmg += dmg;
         m.takeDmg(dmg);
+        System.out.println("You deal " + dmg + " damage to " + m.getName() + "!");
       } 
-      System.out.println("You dealt " + damage + " damage to " + m.getName() + " !");
+      else {
+        m.takeDmg(dmg);
+        System.out.println("\nYou deal " + dmg + " damage to " + m.getName() + "!");
+      }
       if (m.getHp() == 0) { return m.monsterDead(p, m);}
-      System.out.println(m.getName() + " Health: " + m.getHp());
+      else {
+        System.out.println(m.getName() + " Health: " + m.getHp());}
     }
     return false;
   }
